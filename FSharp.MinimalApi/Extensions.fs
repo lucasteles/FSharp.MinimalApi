@@ -7,6 +7,11 @@ open System
 open FSharp.MinimalApi
 open FSharp.MinimalApi.RoutingConfiguration
 
+module Option =
+    let from v: 'a option =
+        (v : 'a) |> box |> Option.ofObj |> Option.map (fun x -> x :?> 'a)
+        
+        
 type WebApplication with
  
     [<CustomOperation("useConfiguration")>]

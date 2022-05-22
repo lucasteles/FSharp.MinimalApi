@@ -5,4 +5,4 @@ open FSharp.MinimalApi
 let configureApp = AppConfigurationBuilder()
 let args = Environment.GetCommandLineArgs()
        
-
+    

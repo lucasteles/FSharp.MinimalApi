@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Sample</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,13 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="Dapper.FSharp" Version="3.2.0" />
-    <PackageReference Include="Giraffe" Version="6.0.0" />
     <PackageReference Include="Npgsql" Version="6.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MinimalApi\MinimalApi.fsproj" />
+    <ProjectReference Include="..\FSharp.MinimalApi\FSharp.MinimalApi.fsproj" />
   </ItemGroup>
 
 </Project>

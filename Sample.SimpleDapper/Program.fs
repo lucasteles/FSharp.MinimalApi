@@ -14,15 +14,8 @@ let getConnection() =
     let conn = new NpgsqlConnection("Server=localhost;Port=5432;User Id=postgres;Password=postgres;Database=sample")
     conn.Open()
     conn
-
-let otherConfig = configureApp {
-    mapGet "/hello" (fun () -> "Hello world")
-    mapGet "/bad" (fun () -> Results.BadRequest "baaaad")
-} 
      
 app {
-    useConfiguration otherConfig
-    
     mapGet "/person" (fun () ->
         use conn = getConnection()
         conn.Query<Person>("SELECT * FROM PERSON"))
@@ -49,24 +42,3 @@ app {
 }
 
 app.Run()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

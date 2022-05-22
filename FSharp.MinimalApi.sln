@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MinimalApi", "MinimalApi\MinimalApi.fsproj", "{C907E9F4-39CD-44D4-832A-4830317B4931}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.MinimalApi", "FSharp.MinimalApi\FSharp.MinimalApi.fsproj", "{C907E9F4-39CD-44D4-832A-4830317B4931}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample", "Sample\Sample.fsproj", "{B4239ED5-1615-4452-800F-8A447187D80F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.SimpleDapper", "Sample.SimpleDapper\Sample.SimpleDapper.fsproj", "{B4239ED5-1615-4452-800F-8A447187D80F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{40AD5125-0E9E-4D42-A65D-D37DEBB721C4}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sample.Dapper", "Sample.Dapper\Sample.Dapper.fsproj", "{8D39CDB4-CE1A-412B-9401-16CAD0785D47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +28,13 @@ Global
 		{B4239ED5-1615-4452-800F-8A447187D80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4239ED5-1615-4452-800F-8A447187D80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4239ED5-1615-4452-800F-8A447187D80F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D39CDB4-CE1A-412B-9401-16CAD0785D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D39CDB4-CE1A-412B-9401-16CAD0785D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D39CDB4-CE1A-412B-9401-16CAD0785D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D39CDB4-CE1A-412B-9401-16CAD0785D47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4239ED5-1615-4452-800F-8A447187D80F} = {40AD5125-0E9E-4D42-A65D-D37DEBB721C4}
+		{8D39CDB4-CE1A-412B-9401-16CAD0785D47} = {40AD5125-0E9E-4D42-A65D-D37DEBB721C4}
 	EndGlobalSection
 EndGlobal
