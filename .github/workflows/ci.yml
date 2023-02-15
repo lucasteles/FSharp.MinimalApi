@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["master"]
+  push:
+    branches: ["master"]
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
+
+      - name: Tool Restore
+        run: dotnet tool restore
+
+      - name: Build
+        run: dotnet build
+
+      - name: Lint
+        run: dotnet fantomas -r --check .
+
+      - name: Tests
+        run: dotnet test

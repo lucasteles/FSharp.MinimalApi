@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <OutputType>Library</OutputType>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <Authors>Lucas Teles - lucas.teles@outlook.com</Authors>
+        <Company/>
+        <Description>Easily use AspNet Core MinimalApi with F#</Description>
+        <RepositoryType>GitHub</RepositoryType>
+        <PackageProjectUrl>https://github.com/lucasteles/FSharp.MinimalApi</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/lucasteles/FSharp.MinimalApi</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <PackageTags>AspNet,Asp,fsharp,Minimal api,MinimalApi</PackageTags>
+        <DocumentationFile>bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Update="FSharp.Core" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="Extensions\Utils.fs"/>
+        <Compile Include="Extensions\DI.fs"/>
+        <Compile Include="Extensions\EndpointRouteBuilder.fs"/>
+        <Compile Include="Constants.fs"/>
+        <Compile Include="Produces.fs"/>
+        <Compile Include="EndpointHandlerBuilder.fs"/>
+        <Compile Include="EndpointsBuilder.fs"/>
+        <Compile Include="Builders.fs"/>
+    </ItemGroup>
+
+</Project>
