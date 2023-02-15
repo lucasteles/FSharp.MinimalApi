@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Extensions\Utils.fs" />
+    <Compile Include="Extensions\DI.fs" />
+    <Compile Include="Extensions\EndpointRouteBuilder.fs" />
+    <Compile Include="Constants.fs" />
+    <Compile Include="Produces.fs" />
+    <Compile Include="EndpointHandlerBuilder.fs" />
+    <Compile Include="EndpointsBuilder.fs" />
+    <Compile Include="Builders.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>
