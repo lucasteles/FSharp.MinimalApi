@@ -56,6 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && needs.build.outputs.CommitsSinceVersionSource > 0 #Only release if there has been a commit/version change
     needs: build
+    permissions:
+      contents: write
     steps:
       - name: Download lib nuget package artifact
         uses: actions/download-artifact@v1.0.0
