@@ -56,22 +56,20 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && needs.build.outputs.CommitsSinceVersionSource > 0 #Only release if there has been a commit/version change
     needs: build
-
     steps:
       - name: Download lib nuget package artifact
         uses: actions/download-artifact@v1.0.0
         with:
           name: libPackage
 
-      # - name: Push package to Nuget
-      #   run: |
-      #     dotnet nuget push libPackage/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: Push package to Nuget
+        run: |
+          dotnet nuget push libPackage/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ needs.build.outputs.Version }}
           name: Release ${{ needs.build.outputs.Version }}
-          prerelease: ${{ needs.build.outputs.PreReleaseTag }}
           artifacts: "libPackage/*"
           token: ${{ secrets.GITHUB_TOKEN }}
