@@ -1,7 +1,6 @@
 ﻿namespace FSharp.MinimalApi
 
 open System
-open System.IO
 open System.Threading.Tasks
 open Microsoft.AspNetCore.Authorization
 open Microsoft.AspNetCore.Builder
@@ -9,58 +8,63 @@ open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Routing
 
 type EndpointsMap =
-    { GroupBuilderFn: Identity<RouteGroupBuilder>
-      RootMapFn: Identity<IRoute>
-      MapFn: Identity<IRoute>
-      GroupName: string option }
+    internal
+        { Index: int
+          RootMapFn: Identity<RouteGroupBuilder>
+          GroupName: string option }
 
     member this.Apply(r: IRoute) =
         let group = this.GroupName |> Option.defaultValue String.Empty |> r.MapGroup
-        let route = this.GroupBuilderFn group :> IRoute
-
-        route |> this.RootMapFn |> ignore
-        route |> this.MapFn |> ignore
-        r
+        this.RootMapFn group
 
 type EndpointsBuilder() =
     inherit RouterBaseBuilder<EndpointsMap>()
 
-    override this.Append state f = { state with MapFn = state.MapFn << f }
+    static let mutable builderIndex = 0
+
+    let trimPath (path: string) = path.Trim('/')
+    let concatPath (paths: string seq) = String.concat "/" paths
+
+    override this.Append state f =
+        { state with
+            RootMapFn = state.RootMapFn >> Func.tap f }
 
     member _.Zero() =
-        { MapFn = id
-          GroupBuilderFn = id
+        { Index = -1
           RootMapFn = id
           GroupName = None }
 
-    member _.Run(route: EndpointsMap) = route
+    member _.Run(route: EndpointsMap) =
+        { route with
+            Index = Threading.Interlocked.Increment(&builderIndex) }
+
     member this.Yield(()) = this.Zero()
     member this.Yield(v) = v
     member _.Delay(f) = f ()
 
-    member this.Combine(s1: EndpointsMap, s2: EndpointsMap) =
-        match s1.GroupName, s2.GroupName with
-        | Some _, None ->
-            { s1 with
-                RootMapFn = s1.RootMapFn << s2.Apply
-                GroupBuilderFn = s1.GroupBuilderFn << s2.GroupBuilderFn }
-        | None, Some _ ->
-            { s2 with
-                RootMapFn = s2.RootMapFn << s1.Apply
-                GroupBuilderFn = s2.GroupBuilderFn << s1.GroupBuilderFn }
+    member this.Combine(endpoints1: EndpointsMap, endpoints2: EndpointsMap) =
+        let maps = [ endpoints1; endpoints2 ] |> List.sortBy (fun e -> e.Index)
 
-        | None, None ->
-            { s1 with
-                MapFn = s1.MapFn << s2.MapFn
-                RootMapFn = s2.RootMapFn << s1.RootMapFn
-                GroupBuilderFn = s1.GroupBuilderFn << s2.GroupBuilderFn }
+        match maps[0], maps[1] with
+        | { GroupName = None }, { GroupName = Some _ }
+        | { GroupName = Some _ }, { GroupName = None } as (m1, m2) ->
+            { m1 with
+                RootMapFn = m1.RootMapFn >> Func.tap m2.Apply }
 
-        | Some group1, Some group2 ->
-            { s1 with
-                MapFn = s1.MapFn << s2.MapFn
-                RootMapFn = s2.RootMapFn << s1.RootMapFn
-                GroupBuilderFn = s1.GroupBuilderFn << s2.GroupBuilderFn
-                GroupName = Path.Combine(group1, group2) |> Some }
+        | { GroupName = Some group1 }, { GroupName = Some group2 } as (m1, m2) when
+            let a, b = trimPath group1, trimPath group2 in a.EndsWith(b)
+            ->
+            { m1 with
+                RootMapFn = m1.RootMapFn >> m2.RootMapFn
+                Index = min m1.Index m2.Index }
+
+        | { GroupName = None }, { GroupName = None } as (m1, m2) ->
+            { m1 with
+                RootMapFn = m1.RootMapFn >> m2.RootMapFn }
+            
+        | { GroupName = Some _ }, { GroupName = Some _ } as (m1, m2) ->
+            { m1 with
+                RootMapFn = m1.RootMapFn >> Func.tap m2.Apply }
 
     member this.For(state: EndpointsMap, f: unit -> EndpointsMap) = this.Combine(state, f ())
 
@@ -70,55 +74,52 @@ type EndpointsBuilder() =
     [<CustomOperation("path")>]
     member _.Path(state, [<ParamArray>] segments: string[]) =
         { state with
-            GroupName =
-                segments
-                |> Array.fold (fun path seg -> Path.Combine(path, seg)) String.Empty
-                |> Some }
+            GroupName = segments |> Array.map trimPath |> concatPath |> Some }
 
     [<CustomOperation("set")>]
     member _.Set(state, f) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn << Func.tap f }
+            RootMapFn = state.RootMapFn << Func.tap f }
 
     [<CustomOperation("allow_anonymous")>]
     member _.AllowAnonymous(state) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.AllowAnonymous()) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.AllowAnonymous()) }
 
     [<CustomOperation("tags")>]
     member _.Tags(state, [<ParamArray>] tags) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.WithTags(tags)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.WithTags(tags)) }
 
     [<CustomOperation("description")>]
     member _.Description(state, desc) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.WithDescription(desc)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.WithDescription(desc)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.RequireAuthorization()) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization()) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: string[]) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.RequireAuthorization(policies)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: IAuthorizeData[]) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.RequireAuthorization(policies)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, policy: AuthorizationPolicy) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.RequireAuthorization(policy)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(policy)) }
 
     [<CustomOperation("add_filter")>]
     member _.AddFilter<'f when 'f :> IEndpointFilter>(state) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.AddEndpointFilter<'f>()) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
 
     [<CustomOperation("filter")>]
     member _.Filter
@@ -131,7 +132,7 @@ type EndpointsBuilder() =
                 member _.InvokeAsync(ctx, next) = f ctx next.Invoke }
 
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.AddEndpointFilter(filter)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
     [<CustomOperation("filter")>]
     member _.Filter
@@ -144,10 +145,10 @@ type EndpointsBuilder() =
                 member _.InvokeAsync(ctx, next) = ValueTask<obj>(f ctx next.Invoke) }
 
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.AddEndpointFilter(filter)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, builder: AuthorizationPolicyBuilder -> unit) =
         { state with
-            GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.RequireAuthorization(builder)) }
+            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(builder)) }

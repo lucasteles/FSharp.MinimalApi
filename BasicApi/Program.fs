@@ -21,6 +21,12 @@ let routes =
 
         // get "/hello" (fun () -> "world")
 
+
+        endpoints {
+            group "user"
+            get "/hello1" (fun () -> "world")
+        }
+
         get "/ping/{x}" (fun (x: int) -> $"pong {x}")
         //
         // get "/inc/{v:int}" (fun (v: int) (n: Nullable<int>) -> v + (n.GetValueOrDefault 1))
@@ -46,7 +52,7 @@ let routes =
         endpoints {
             group "user"
 
-            get "/hello" (fun () -> "world")
+            get "/hello2" (fun () -> "world")
 
         // tags "Users"
 
@@ -115,6 +121,29 @@ let routes =
         //                 return !> NoContent()
         //         })
         // }
+        }
+
+        endpoints {
+            group "user"
+            get "/hello3" (fun () -> "world")
+
+            endpoints {
+                group "profile"
+                get "picture" (fun () -> "PHOTO")
+                
+            }
+        }
+
+        endpoints {
+            group "user"
+            get "/hello4" (fun () -> "world")
+        }
+
+        get "/pong/{x}" (fun (x: int) -> $"ping {x}")
+
+        endpoints {
+            group "user"
+            get "/hello5" (fun () -> "world")
         }
     }
 
