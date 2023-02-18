@@ -11,14 +11,16 @@ open Microsoft.AspNetCore.Routing
 type EndpointsMap =
     internal
         { Index: int64
-          RootMapFn: Identity<RouteGroupBuilder>
+          RootMapFn: RouteGroupBuilder -> RouteGroupBuilder
           GroupName: string option }
 
-    member this.Apply(r: IRoute) =
-        let group = this.GroupName |> Option.defaultValue String.Empty |> r.MapGroup
-        this.RootMapFn group
+    member this.Apply(r: IEndpointRouteBuilder) =
+        this.GroupName
+        |> Option.defaultValue String.Empty
+        |> r.MapGroup
+        |> this.RootMapFn
 
-type EndpointsBuilder() =
+type EndpointsBuilder(?groupName: string) =
     inherit RouterBaseBuilder<EndpointsMap>()
 
     let trimPath (path: string) = path.Trim('/')
@@ -31,7 +33,7 @@ type EndpointsBuilder() =
     member _.Zero() =
         { Index = 0
           RootMapFn = id
-          GroupName = None }
+          GroupName = groupName }
 
     member _.Run(route: EndpointsMap) =
         { route with

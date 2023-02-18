@@ -49,10 +49,9 @@ let routes =
         //          logger.LogInformation $"Odd number: {v}"
         //          !> BadRequest()))
 
-        endpoints {
-            group "user"
-
+        withGroup "user" {
             get "/hello2" (fun () -> "world")
+            get "/helloNEW" (fun () -> "world")
 
         // tags "Users"
 

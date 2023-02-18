@@ -3,12 +3,6 @@
 open System
 open System.Threading.Tasks
 open FSharp.Core
-open Microsoft.AspNetCore.Routing
-open Microsoft.AspNetCore.Builder
-
-type App = WebApplication
-type IRoute = IEndpointRouteBuilder
-type Identity<'t> = 't -> 't
 
 module Delegate =
     let inline fromFuncWithMaybeUnit (func: Func<'a, 'b>) : Delegate =
