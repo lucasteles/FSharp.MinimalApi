@@ -1,7 +1,6 @@
 ﻿namespace FSharp.MinimalApi
 
 open System
-open System.Collections.Generic
 open System.Threading.Tasks
 open FSharp.Core
 open Microsoft.AspNetCore.Routing

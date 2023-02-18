@@ -1,107 +1,84 @@
 ﻿namespace FSharp.MinimalApi
 
 open System
+open System.IO
 open System.Threading.Tasks
 open Microsoft.AspNetCore.Authorization
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Routing
 
-type EndpointMap =
-    internal
-        { MapFn: Identity<IRoute> }
-
-    member this.Apply(r: IRoute) = this.MapFn r
-
-type EndpointGroup =
+type EndpointsMap =
     { GroupBuilderFn: Identity<RouteGroupBuilder>
-      EndpointsMapFn: Identity<IRoute>
       RootMapFn: Identity<IRoute>
-      GroupName: string }
+      MapFn: Identity<IRoute>
+      GroupName: string option }
 
     member this.Apply(r: IRoute) =
-        let group = r.MapGroup(this.GroupName)
+        let group = this.GroupName |> Option.defaultValue String.Empty |> r.MapGroup
         let route = this.GroupBuilderFn group :> IRoute
 
         route |> this.RootMapFn |> ignore
-        route |> this.EndpointsMapFn |> ignore
+        route |> this.MapFn |> ignore
         r
 
 type EndpointsBuilder() =
-    inherit RouterBaseBuilder<EndpointMap>()
+    inherit RouterBaseBuilder<EndpointsMap>()
 
     override this.Append state f = { state with MapFn = state.MapFn << f }
-    member _.Run(route: EndpointMap) = route
-    member _.Zero() = { MapFn = id }
-    member this.Yield(_: unit) = this.Zero()
-    member this.Yield(v) = v
-
-    member _.Delay(f) = f ()
-
-    member this.Combine(s1: EndpointMap, s2: EndpointMap) = this.Append s1 s2.MapFn
-    member this.Combine(endpoint: EndpointMap, group: EndpointGroup) = this.Append endpoint group.Apply
-    member this.Combine(group: EndpointGroup, endpoint: EndpointMap) = this.Combine(endpoint, group)
-
-    [<CustomOperation("set")>]
-    member this.Set(state, f) = this.Append state (Func.tap f)
-
-    member this.Combine(group1: EndpointGroup, group2: EndpointGroup) =
-        (group1.Apply >> group2.Apply) |> this.Append(this.Zero())
-
-    member this.For(state: EndpointMap, f: unit -> EndpointMap) = this.Combine(state, f ())
-    member this.For(state: EndpointMap, f: unit -> EndpointGroup) = this.Combine(state, f ())
-
-type GroupBuilder(groupName: string) =
-    inherit RouterBaseBuilder<EndpointGroup>()
-
-    override this.Append state f =
-        { state with
-            EndpointsMapFn = state.EndpointsMapFn << f }
 
     member _.Zero() =
-        { EndpointsMapFn = id
+        { MapFn = id
           GroupBuilderFn = id
           RootMapFn = id
-          GroupName = groupName }
+          GroupName = None }
 
-    member _.Run(route: EndpointGroup) = route
+    member _.Run(route: EndpointsMap) = route
     member this.Yield(()) = this.Zero()
     member this.Yield(v) = v
     member _.Delay(f) = f ()
 
-    member this.Combine(s1: EndpointGroup, s2: EndpointGroup) =
-        match s1.GroupName = groupName, s2.GroupName = groupName with
-        | false, false -> invalidOp "Invalid group name"
-        | true, false ->
+    member this.Combine(s1: EndpointsMap, s2: EndpointsMap) =
+        match s1.GroupName, s2.GroupName with
+        | Some _, None ->
             { s1 with
-                EndpointsMapFn = s1.EndpointsMapFn << s2.Apply
+                RootMapFn = s1.RootMapFn << s2.Apply
                 GroupBuilderFn = s1.GroupBuilderFn << s2.GroupBuilderFn }
-        | false, true ->
+        | None, Some _ ->
             { s2 with
-                EndpointsMapFn = s2.EndpointsMapFn << s1.Apply
+                RootMapFn = s2.RootMapFn << s1.Apply
                 GroupBuilderFn = s2.GroupBuilderFn << s1.GroupBuilderFn }
 
-        | true, true ->
+        | None, None ->
             { s1 with
-                EndpointsMapFn = s1.EndpointsMapFn << s2.EndpointsMapFn
+                MapFn = s1.MapFn << s2.MapFn
                 RootMapFn = s2.RootMapFn << s1.RootMapFn
                 GroupBuilderFn = s1.GroupBuilderFn << s2.GroupBuilderFn }
 
-    member this.Combine(group: EndpointGroup, endpoint: EndpointMap) =
-        { group with
-            RootMapFn = group.RootMapFn << endpoint.MapFn }
+        | Some group1, Some group2 ->
+            { s1 with
+                MapFn = s1.MapFn << s2.MapFn
+                RootMapFn = s2.RootMapFn << s1.RootMapFn
+                GroupBuilderFn = s1.GroupBuilderFn << s2.GroupBuilderFn
+                GroupName = Path.Combine(group1, group2) |> Some }
 
-    member this.Combine(s1: EndpointMap, s2: EndpointGroup) = this.Combine(s2, s1)
+    member this.For(state: EndpointsMap, f: unit -> EndpointsMap) = this.Combine(state, f ())
 
-    member this.For(state: EndpointGroup, f: unit -> EndpointGroup) = this.Combine(state, f ())
-    member this.For(state: EndpointGroup, f: unit -> EndpointMap) = this.Combine(state, f ())
-    member this.For(state: EndpointMap, f: unit -> EndpointGroup) = this.Combine(f (), state)
+    [<CustomOperation("group")>]
+    member _.Group(state, name) = { state with GroupName = Some name }
+
+    [<CustomOperation("path")>]
+    member _.Path(state, [<ParamArray>] segments: string[]) =
+        { state with
+            GroupName =
+                segments
+                |> Array.fold (fun path seg -> Path.Combine(path, seg)) String.Empty
+                |> Some }
 
     [<CustomOperation("set")>]
     member _.Set(state, f) =
         { state with
             GroupBuilderFn = state.GroupBuilderFn << Func.tap f }
-
 
     [<CustomOperation("allow_anonymous")>]
     member _.AllowAnonymous(state) =
@@ -112,7 +89,6 @@ type GroupBuilder(groupName: string) =
     member _.Tags(state, [<ParamArray>] tags) =
         { state with
             GroupBuilderFn = state.GroupBuilderFn >> (fun e -> e.WithTags(tags)) }
-
 
     [<CustomOperation("description")>]
     member _.Description(state, desc) =
