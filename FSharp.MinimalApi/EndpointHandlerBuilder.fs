@@ -6,9 +6,11 @@ open Constants
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 
+open Microsoft.AspNetCore.Routing
+
 [<AbstractClass>]
 type RouterBaseBuilder<'state>() =
-    abstract Append: 'state -> Identity<IRoute> -> 'state
+    abstract Append: 'state -> (IEndpointRouteBuilder -> IEndpointRouteBuilder) -> 'state
 
     member this.get
         (state: 'state)
@@ -16,7 +18,7 @@ type RouterBaseBuilder<'state>() =
         (f: Delegate)
         (config: (RouteHandlerBuilder -> RouteHandlerBuilder) option)
         =
-        fun (r: IRoute) ->
+        fun (r: IEndpointRouteBuilder) ->
             r.MapGet(route, f) |> Option.defaultValue id config |> ignore
             r
         |> this.Append state
@@ -27,7 +29,7 @@ type RouterBaseBuilder<'state>() =
         (f: Delegate)
         (config: (RouteHandlerBuilder -> RouteHandlerBuilder) option)
         =
-        fun (r: IRoute) ->
+        fun (r: IEndpointRouteBuilder) ->
             r.MapPost(route, f) |> Option.defaultValue id config |> ignore
             r
         |> this.Append state
@@ -38,7 +40,7 @@ type RouterBaseBuilder<'state>() =
         (f: Delegate)
         (config: (RouteHandlerBuilder -> RouteHandlerBuilder) option)
         =
-        fun (r: IRoute) ->
+        fun (r: IEndpointRouteBuilder) ->
             r.MapPut(route, f) |> Option.defaultValue id config |> ignore
             r
         |> this.Append state
@@ -49,7 +51,7 @@ type RouterBaseBuilder<'state>() =
         (f: Delegate)
         (config: (RouteHandlerBuilder -> RouteHandlerBuilder) option)
         =
-        fun (r: IRoute) ->
+        fun (r: IEndpointRouteBuilder) ->
             r.MapDelete(route, f) |> Option.defaultValue id config |> ignore
             r
         |> this.Append state

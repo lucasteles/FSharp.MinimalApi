@@ -3,6 +3,7 @@ open System.Linq
 open System.Text.Json.Serialization
 open BasicApi
 open BasicApi.Db
+open BasicApi.Models
 open Microsoft.AspNetCore.Builder
 open Microsoft.EntityFrameworkCore
 open Microsoft.AspNetCore.Http
@@ -13,10 +14,13 @@ open Microsoft.Extensions.Logging
 open FSharp.MinimalApi
 open type TypedResults
 
-open BasicApi.Models
+let otherRoute =
+    endpoints {
+        group "other"
+        get "foo" (fun () -> "bar")
+    }
 
 let routes =
-
     endpoints {
 
         get "/hello" (fun () -> "world")
@@ -36,6 +40,11 @@ let routes =
 
         get "/double/{v}" produces<Ok<int>> (fun (v: int) -> Ok(v * 2))
 
+        endpoints {
+            path "very" "long" "path" "dec"
+            get "/" (fun (n: int) -> n - 1)
+        }
+
         get "/even/{v}" produces<Ok<string>, BadRequest> (fun (v: int) (logger: ILogger<_>) ->
             (if v % 2 = 0 then
                  !> Ok("even number!")
@@ -43,7 +52,10 @@ let routes =
                  logger.LogInformation $"Odd number: {v}"
                  !> BadRequest()))
 
-        group "user" {
+        otherRoute
+
+        endpoints {
+            group "user"
             tags "Users"
 
             filter (fun ctx next ->
@@ -69,7 +81,7 @@ let routes =
                     | None -> return !> NotFound()
                 })
 
-            group "profile" {
+            mapGroup "profile" {
                 allow_anonymous
 
                 post
@@ -109,6 +121,7 @@ let routes =
                             do! db.saveChangesAsync ()
                             return !> NoContent()
                     })
+
             }
         }
     }

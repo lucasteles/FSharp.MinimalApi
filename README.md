@@ -46,7 +46,7 @@ let routes =
         // RouteBuilder access
         set (fun b -> b.MapGet("/health", (fun () -> "healthy")))
 
-        group "user" {
+        mapGroup "user" {
             tags "Users"
             allow_anonymous
 
