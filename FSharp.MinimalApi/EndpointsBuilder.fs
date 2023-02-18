@@ -10,7 +10,7 @@ open Microsoft.AspNetCore.Routing
 
 type EndpointsMap =
     internal
-        { Timestamp: int64
+        { Order: int64
           MapFn: RouteGroupBuilder -> RouteGroupBuilder
           GroupName: string option }
 
@@ -28,7 +28,7 @@ type EndpointsBuilder(?groupName: string) =
             MapFn = state.MapFn >> Func.tap f }
 
     member _.Zero() =
-        { Timestamp = 0
+        { Order = 0
           MapFn = id
           GroupName = groupName }
 
@@ -38,12 +38,12 @@ type EndpointsBuilder(?groupName: string) =
 
     member this.Yield(route: EndpointsMap) =
         { route with
-            Timestamp = Stopwatch.GetTimestamp() }
+            Order = Stopwatch.GetTimestamp() }
 
     member _.Delay(f) = f ()
 
     member this.Combine(endpoints1: EndpointsMap, endpoints2: EndpointsMap) =
-        let maps = [ endpoints1; endpoints2 ] |> List.sortBy (fun e -> e.Timestamp)
+        let maps = [ endpoints1; endpoints2 ] |> List.sortBy (fun e -> e.Order)
 
         match maps[0], maps[1] with
         | { GroupName = None }, { GroupName = Some _ }
@@ -53,12 +53,12 @@ type EndpointsBuilder(?groupName: string) =
 
         | { GroupName = None }, { GroupName = None }
         | { GroupName = Some _ }, { GroupName = Some _ } as (m1, m2) ->
-            if m1.Timestamp = 0 then
+            if m1.Order = 0 then
                 { m1 with
                     MapFn = m1.MapFn >> (Func.tap m2.Apply) }
             else
                 { MapFn = (Func.tap m1.Apply) >> (Func.tap m2.Apply)
-                  Timestamp = min m1.Timestamp m2.Timestamp
+                  Order = 1
                   GroupName = None }
 
     member this.For(state: EndpointsMap, f: unit -> EndpointsMap) = this.Combine(state, f ())
