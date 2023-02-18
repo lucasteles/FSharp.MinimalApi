@@ -128,9 +128,9 @@ let routes =
             get "/hello3" (fun () -> "world")
 
             endpoints {
-                group "profile"
-                get "picture" (fun () -> "PHOTO")
-                
+                group "user"
+                get "profile" (fun () -> "PHOTO")
+
             }
         }
 

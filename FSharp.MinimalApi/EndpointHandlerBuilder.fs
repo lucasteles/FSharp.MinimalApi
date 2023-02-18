@@ -17,7 +17,6 @@ type RouterBaseBuilder<'state>() =
         (config: (RouteHandlerBuilder -> RouteHandlerBuilder) option)
         =
         fun (r: IRoute) ->
-            printfn $"{route}"
             r.MapGet(route, f) |> Option.defaultValue id config |> ignore
             r
         |> this.Append state

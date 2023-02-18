@@ -1,6 +1,7 @@
 ﻿namespace FSharp.MinimalApi
 
 open System
+open System.Diagnostics
 open System.Threading.Tasks
 open Microsoft.AspNetCore.Authorization
 open Microsoft.AspNetCore.Builder
@@ -9,7 +10,7 @@ open Microsoft.AspNetCore.Routing
 
 type EndpointsMap =
     internal
-        { Index: int
+        { Index: int64
           RootMapFn: Identity<RouteGroupBuilder>
           GroupName: string option }
 
@@ -20,8 +21,6 @@ type EndpointsMap =
 type EndpointsBuilder() =
     inherit RouterBaseBuilder<EndpointsMap>()
 
-    static let mutable builderIndex = 0
-
     let trimPath (path: string) = path.Trim('/')
     let concatPath (paths: string seq) = String.concat "/" paths
 
@@ -30,13 +29,13 @@ type EndpointsBuilder() =
             RootMapFn = state.RootMapFn >> Func.tap f }
 
     member _.Zero() =
-        { Index = -1
+        { Index = 0
           RootMapFn = id
           GroupName = None }
 
     member _.Run(route: EndpointsMap) =
         { route with
-            Index = Threading.Interlocked.Increment(&builderIndex) }
+            Index = Stopwatch.GetTimestamp() }
 
     member this.Yield(()) = this.Zero()
     member this.Yield(v) = v
@@ -51,9 +50,7 @@ type EndpointsBuilder() =
             { m1 with
                 RootMapFn = m1.RootMapFn >> Func.tap m2.Apply }
 
-        | { GroupName = Some group1 }, { GroupName = Some group2 } as (m1, m2) when
-            let a, b = trimPath group1, trimPath group2 in a.EndsWith(b)
-            ->
+        | { GroupName = Some group1 }, { GroupName = Some group2 } as (m1, m2) when trimPath group1 = trimPath group2 ->
             { m1 with
                 RootMapFn = m1.RootMapFn >> m2.RootMapFn
                 Index = min m1.Index m2.Index }
@@ -61,7 +58,7 @@ type EndpointsBuilder() =
         | { GroupName = None }, { GroupName = None } as (m1, m2) ->
             { m1 with
                 RootMapFn = m1.RootMapFn >> m2.RootMapFn }
-            
+
         | { GroupName = Some _ }, { GroupName = Some _ } as (m1, m2) ->
             { m1 with
                 RootMapFn = m1.RootMapFn >> Func.tap m2.Apply }
