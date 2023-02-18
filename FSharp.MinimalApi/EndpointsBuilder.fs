@@ -10,15 +10,12 @@ open Microsoft.AspNetCore.Routing
 
 type EndpointsMap =
     internal
-        { Index: int64
-          RootMapFn: RouteGroupBuilder -> RouteGroupBuilder
+        { Timestamp: int64
+          MapFn: RouteGroupBuilder -> RouteGroupBuilder
           GroupName: string option }
 
     member this.Apply(r: IEndpointRouteBuilder) =
-        this.GroupName
-        |> Option.defaultValue String.Empty
-        |> r.MapGroup
-        |> this.RootMapFn
+        this.GroupName |> Option.defaultValue String.Empty |> r.MapGroup |> this.MapFn
 
 type EndpointsBuilder(?groupName: string) =
     inherit RouterBaseBuilder<EndpointsMap>()
@@ -28,47 +25,51 @@ type EndpointsBuilder(?groupName: string) =
 
     override this.Append state f =
         { state with
-            RootMapFn = state.RootMapFn >> Func.tap f }
+            MapFn = state.MapFn >> Func.tap f }
 
     member _.Zero() =
-        { Index = 0
-          RootMapFn = id
+        { Timestamp = 0
+          MapFn = id
           GroupName = groupName }
 
-    member _.Run(route: EndpointsMap) =
-        { route with
-            Index = Stopwatch.GetTimestamp() }
+    member _.Run(route: EndpointsMap) = route
 
     member this.Yield(()) = this.Zero()
-    member this.Yield(v) = v
+
+    member this.Yield(route: EndpointsMap) =
+        { route with
+            Timestamp = Stopwatch.GetTimestamp() }
+
     member _.Delay(f) = f ()
 
     member this.Combine(endpoints1: EndpointsMap, endpoints2: EndpointsMap) =
-        let maps = [ endpoints1; endpoints2 ] |> List.sortBy (fun e -> e.Index)
+        let maps = [ endpoints1; endpoints2 ] |> List.sortBy (fun e -> e.Timestamp)
 
         match maps[0], maps[1] with
         | { GroupName = None }, { GroupName = Some _ }
         | { GroupName = Some _ }, { GroupName = None } as (m1, m2) ->
             { m1 with
-                RootMapFn = m1.RootMapFn >> Func.tap m2.Apply }
+                MapFn = m1.MapFn >> Func.tap m2.Apply }
 
-        | { GroupName = Some group1 }, { GroupName = Some group2 } as (m1, m2) when trimPath group1 = trimPath group2 ->
-            { m1 with
-                RootMapFn = m1.RootMapFn >> m2.RootMapFn
-                Index = min m1.Index m2.Index }
-
-        | { GroupName = None }, { GroupName = None } as (m1, m2) ->
-            { m1 with
-                RootMapFn = m1.RootMapFn >> m2.RootMapFn }
-
+        | { GroupName = None }, { GroupName = None }
         | { GroupName = Some _ }, { GroupName = Some _ } as (m1, m2) ->
-            { m1 with
-                RootMapFn = m1.RootMapFn >> Func.tap m2.Apply }
+            if m1.Timestamp = 0 then
+                { m1 with
+                    MapFn = m1.MapFn >> (Func.tap m2.Apply) }
+            else
+                { MapFn = (Func.tap m1.Apply) >> (Func.tap m2.Apply)
+                  Timestamp = min m1.Timestamp m2.Timestamp
+                  GroupName = None }
 
     member this.For(state: EndpointsMap, f: unit -> EndpointsMap) = this.Combine(state, f ())
 
     [<CustomOperation("group")>]
     member _.Group(state, name) = { state with GroupName = Some name }
+
+    [<CustomOperation("use_routes")>]
+    member _.useRoutes(state, endpoints) =
+        { state with
+            MapFn = state.MapFn >> endpoints.MapFn }
 
     [<CustomOperation("path")>]
     member _.Path(state, [<ParamArray>] segments: string[]) =
@@ -78,47 +79,47 @@ type EndpointsBuilder(?groupName: string) =
     [<CustomOperation("set")>]
     member _.Set(state, f) =
         { state with
-            RootMapFn = state.RootMapFn << Func.tap f }
+            MapFn = state.MapFn << Func.tap f }
 
     [<CustomOperation("allow_anonymous")>]
     member _.AllowAnonymous(state) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.AllowAnonymous()) }
+            MapFn = state.MapFn >> (fun e -> e.AllowAnonymous()) }
 
     [<CustomOperation("tags")>]
     member _.Tags(state, [<ParamArray>] tags) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.WithTags(tags)) }
+            MapFn = state.MapFn >> (fun e -> e.WithTags(tags)) }
 
     [<CustomOperation("description")>]
     member _.Description(state, desc) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.WithDescription(desc)) }
+            MapFn = state.MapFn >> (fun e -> e.WithDescription(desc)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization()) }
+            MapFn = state.MapFn >> (fun e -> e.RequireAuthorization()) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: string[]) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(policies)) }
+            MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: IAuthorizeData[]) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(policies)) }
+            MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, policy: AuthorizationPolicy) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(policy)) }
+            MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policy)) }
 
     [<CustomOperation("add_filter")>]
     member _.AddFilter<'f when 'f :> IEndpointFilter>(state) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
+            MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
 
     [<CustomOperation("filter")>]
     member _.Filter
@@ -131,7 +132,7 @@ type EndpointsBuilder(?groupName: string) =
                 member _.InvokeAsync(ctx, next) = f ctx next.Invoke }
 
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.AddEndpointFilter(filter)) }
+            MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
     [<CustomOperation("filter")>]
     member _.Filter
@@ -144,10 +145,9 @@ type EndpointsBuilder(?groupName: string) =
                 member _.InvokeAsync(ctx, next) = ValueTask<obj>(f ctx next.Invoke) }
 
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.AddEndpointFilter(filter)) }
-
+            MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
     [<CustomOperation("require_authorization")>]
     member _.RequireAuth(state, builder: AuthorizationPolicyBuilder -> unit) =
         { state with
-            RootMapFn = state.RootMapFn >> (fun e -> e.RequireAuthorization(builder)) }
+            MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(builder)) }

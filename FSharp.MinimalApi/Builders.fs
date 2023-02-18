@@ -2,4 +2,4 @@
 module FSharp.MinimalApi.Builders
 
 let endpoints = EndpointsBuilder()
-let withGroup groupName = EndpointsBuilder groupName
+let mapGroup groupName = EndpointsBuilder groupName
