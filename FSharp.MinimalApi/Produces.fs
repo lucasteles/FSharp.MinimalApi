@@ -5,107 +5,106 @@ open Microsoft.AspNetCore.Http.HttpResults
 
 [<AutoOpen>]
 type ProducesHook =
-    static member inline produces< ^t when ^t :> IResult>(()) = Unchecked.defaultof< ^t>
+    static member produces<'t when 't :> IResult>(()) = Unchecked.defaultof<'t>
 
-    static member inline produces< ^t1, ^t2 when ^t1 :> IResult and ^t2 :> IResult>(()) =
-        Unchecked.defaultof<Results< ^t1, ^t2 >>
+    static member produces<'t1, 't2 when 't1 :> IResult and 't2 :> IResult>(()) = Unchecked.defaultof<Results<'t1, 't2>>
 
-    static member inline produces< ^t1, ^t2, ^t3 when ^t1 :> IResult and ^t2 :> IResult and ^t3 :> IResult>(()) =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3 >>
+    static member produces<'t1, 't2, 't3 when 't1 :> IResult and 't2 :> IResult and 't3 :> IResult>(()) =
+        Unchecked.defaultof<Results<'t1, 't2, 't3>>
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4
-        when ^t1 :> IResult and ^t2 :> IResult and ^t3 :> IResult and ^t4 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4
+        when 't1 :> IResult and 't2 :> IResult and 't3 :> IResult and 't4 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4 >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4>>
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5
-        when ^t1 :> IResult and ^t2 :> IResult and ^t3 :> IResult and ^t4 :> IResult and ^t5 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5
+        when 't1 :> IResult and 't2 :> IResult and 't3 :> IResult and 't4 :> IResult and 't5 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5 >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5>>
 
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6
-        when ^t1 :> IResult
-        and ^t2 :> IResult
-        and ^t3 :> IResult
-        and ^t4 :> IResult
-        and ^t5 :> IResult
-        and ^t6 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5, 't6
+        when 't1 :> IResult
+        and 't2 :> IResult
+        and 't3 :> IResult
+        and 't4 :> IResult
+        and 't5 :> IResult
+        and 't6 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6 >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, 't6>>
 
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6, ^t7
-        when ^t1 :> IResult
-        and ^t2 :> IResult
-        and ^t3 :> IResult
-        and ^t4 :> IResult
-        and ^t5 :> IResult
-        and ^t6 :> IResult
-        and ^t7 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7
+        when 't1 :> IResult
+        and 't2 :> IResult
+        and 't3 :> IResult
+        and 't4 :> IResult
+        and 't5 :> IResult
+        and 't6 :> IResult
+        and 't7 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5, Results< ^t6, ^t7 > >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7>>>
 
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6, ^t7, ^t8
-        when ^t1 :> IResult
-        and ^t2 :> IResult
-        and ^t3 :> IResult
-        and ^t4 :> IResult
-        and ^t5 :> IResult
-        and ^t6 :> IResult
-        and ^t7 :> IResult
-        and ^t8 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7, 't8
+        when 't1 :> IResult
+        and 't2 :> IResult
+        and 't3 :> IResult
+        and 't4 :> IResult
+        and 't5 :> IResult
+        and 't6 :> IResult
+        and 't7 :> IResult
+        and 't8 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5, Results< ^t6, ^t7, ^t8 > >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7, 't8>>>
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6, ^t7, ^t8, ^t9
-        when ^t1 :> IResult
-        and ^t2 :> IResult
-        and ^t3 :> IResult
-        and ^t4 :> IResult
-        and ^t5 :> IResult
-        and ^t6 :> IResult
-        and ^t7 :> IResult
-        and ^t8 :> IResult
-        and ^t9 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7, 't8, 't9
+        when 't1 :> IResult
+        and 't2 :> IResult
+        and 't3 :> IResult
+        and 't4 :> IResult
+        and 't5 :> IResult
+        and 't6 :> IResult
+        and 't7 :> IResult
+        and 't8 :> IResult
+        and 't9 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5, Results< ^t6, ^t7, ^t8, ^t9 > >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7, 't8, 't9>>>
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6, ^t7, ^t8, ^t9, ^t10
-        when ^t1 :> IResult
-        and ^t2 :> IResult
-        and ^t3 :> IResult
-        and ^t4 :> IResult
-        and ^t5 :> IResult
-        and ^t6 :> IResult
-        and ^t7 :> IResult
-        and ^t8 :> IResult
-        and ^t9 :> IResult
-        and ^t10 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7, 't8, 't9, 't10
+        when 't1 :> IResult
+        and 't2 :> IResult
+        and 't3 :> IResult
+        and 't4 :> IResult
+        and 't5 :> IResult
+        and 't6 :> IResult
+        and 't7 :> IResult
+        and 't8 :> IResult
+        and 't9 :> IResult
+        and 't10 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5, Results< ^t6, ^t7, ^t8, ^t9, ^t10 > >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7, 't8, 't9, 't10>>>
 
 
-    static member inline produces< ^t1, ^t2, ^t3, ^t4, ^t5, ^t6, ^t7, ^t8, ^t9, ^t10, ^t11
-        when ^t1 :> IResult
-        and ^t2 :> IResult
-        and ^t3 :> IResult
-        and ^t4 :> IResult
-        and ^t5 :> IResult
-        and ^t6 :> IResult
-        and ^t7 :> IResult
-        and ^t8 :> IResult
-        and ^t9 :> IResult
-        and ^t10 :> IResult
-        and ^t11 :> IResult>
+    static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7, 't8, 't9, 't10, 't11
+        when 't1 :> IResult
+        and 't2 :> IResult
+        and 't3 :> IResult
+        and 't4 :> IResult
+        and 't5 :> IResult
+        and 't6 :> IResult
+        and 't7 :> IResult
+        and 't8 :> IResult
+        and 't9 :> IResult
+        and 't10 :> IResult
+        and 't11 :> IResult>
         (())
         =
-        Unchecked.defaultof<Results< ^t1, ^t2, ^t3, ^t4, ^t5, Results< ^t6, ^t7, ^t8, ^t9, ^t10, ^t11 > >>
+        Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7, 't8, 't9, 't10, 't11>>>
