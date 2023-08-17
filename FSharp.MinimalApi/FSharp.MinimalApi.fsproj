@@ -47,6 +47,7 @@
         <Compile Include="Extensions\Utils.fs"/>
         <Compile Include="Extensions\DI.fs"/>
         <Compile Include="Extensions\EndpointRouteBuilder.fs"/>
+        <Compile Include="TypeConverter.fs" />
         <Compile Include="Constants.fs"/>
         <Compile Include="Produces.fs"/>
         <Compile Include="EndpointHandlerBuilder.fs"/>

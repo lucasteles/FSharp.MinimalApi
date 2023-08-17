@@ -29,3 +29,9 @@ module internal Func =
     let tap f arg =
         f arg |> ignore
         arg
+
+module internal Option =
+    let zip a b =
+        match a, b with
+        | Some a, Some b -> Some(a, b)
+        | _ -> None
