@@ -66,7 +66,7 @@ type EndpointsBuilder(?groupName: string) =
     [<CustomOperation("group")>]
     member _.Group(state, name) = { state with GroupName = Some name }
 
-    [<CustomOperation("use_routes")>]
+    [<CustomOperation("useRoutes")>]
     member _.useRoutes(state, endpoints) =
         { state with
             MapFn = state.MapFn >> endpoints.MapFn }
@@ -81,7 +81,7 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn << Func.tap f }
 
-    [<CustomOperation("allow_anonymous")>]
+    [<CustomOperation("allowAnonymous")>]
     member _.AllowAnonymous(state) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AllowAnonymous()) }
@@ -96,27 +96,27 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.WithDescription(desc)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization()) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: string[]) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: IAuthorizeData[]) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAthorization")>]
     member _.RequireAuth(state, policy: AuthorizationPolicy) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policy)) }
 
-    [<CustomOperation("add_filter")>]
+    [<CustomOperation("addFilter")>]
     member _.AddFilter<'f when 'f :> IEndpointFilter>(state) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
@@ -147,7 +147,7 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, builder: AuthorizationPolicyBuilder -> unit) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(builder)) }

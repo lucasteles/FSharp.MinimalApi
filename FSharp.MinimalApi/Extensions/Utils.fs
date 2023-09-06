@@ -23,7 +23,7 @@ module Utils =
     let inline private implicit (x: ^a) : ^b =
         ((^a or ^b): (static member op_Implicit: ^a -> ^b) x)
 
-    let inline (!>) v = implicit v
+    let inline (!!) v = implicit v
 
 module internal Func =
     let tap f arg =

@@ -38,10 +38,10 @@ let routes =
         get "/even/{v}" produces<Ok<string>, BadRequest> (fun (v: int) (logger: ILogger<_>) ->
             (if v % 2 = 0 then
                 // the `!>` is necessary for implicit conversions between result types
-                 !> Ok("even number!") 
+                 !! Ok("even number!") 
              else
                  logger.LogInformation $"Odd number: {v}"
-                 !> BadRequest()))
+                 !! BadRequest()))
 
         // RouteBuilder access
         set (fun b -> b.MapGet("/health", (fun () -> "healthy")))
@@ -61,20 +61,20 @@ let routes =
                     let! res = db.Users.Where(fun x -> x.Id = UserId userId).TryFirstAsync()
 
                     match res with
-                    | Some user -> return !> Ok(user)
-                    | None -> return !> NotFound()
+                    | Some user -> return !! Ok(user)
+                    | None -> return !! NotFound()
                 })
 
             post "/" produces<Created<User>, Conflict, ValidationProblem>
                 (fun (userInfo: NewUser) (db: AppDbContext) ->
                     task {
                         match NewUser.validate userInfo with
-                        | Error err -> return !> ValidationProblem(err)
+                        | Error err -> return !! ValidationProblem(err)
                         | Ok() ->
                             let! exists = db.Users.TryFirstAsync(fun x -> x.Email = userInfo.Email)
 
                             match exists with
-                            | Some _ -> return !> Conflict()
+                            | Some _ -> return !! Conflict()
                             | None ->
                                 let userId = Guid.NewGuid()
 
@@ -86,7 +86,7 @@ let routes =
                                 db.Users.add newUser
                                 do! db.saveChangesAsync ()
 
-                                return !> Created($"/user/{userId}", newUser)
+                                return !! Created($"/user/{userId}", newUser)
                     })
 
             delete "/{userId}" produces<NoContent, NotFound> (fun (userId: Guid) (db: AppDbContext) ->
@@ -94,11 +94,11 @@ let routes =
                     let! exists = db.Users.TryFirstAsync(fun x -> x.Id = UserId userId)
 
                     match exists with
-                    | None -> return !> NotFound()
+                    | None -> return !! NotFound()
                     | Some user ->
                         db.Users.remove user
                         do! db.saveChangesAsync ()
-                        return !> NoContent()
+                        return !! NoContent()
                 })
         }
     }

@@ -28,9 +28,9 @@ let routes =
         get "/ping/{x}" (fun (x: int) -> $"pong {x}")
 
         get "/inc/{v:int}" (fun (v: int) (n: Nullable<int>) -> v + (n.GetValueOrDefault 1))
-
+        
         // not working =/
-        get "/arg/{x}" (fun ([<FromRoute(Name = "x")>] v: int) -> $"pong {v}")
+        get "/arg/{x}" (fun ([<FromRoute(Name = "x")>] v: int) -> $"echo {v}")
 
         // access route builder
         get "/secret" (fun () -> "I'm secret") (fun b -> b.ExcludeFromDescription())
@@ -47,10 +47,10 @@ let routes =
 
         get "/even/{v}" produces<Ok<string>, BadRequest> (fun (v: int) (logger: ILogger<_>) ->
             (if v % 2 = 0 then
-                 !> Ok("even number!")
+                 !! Ok("even number!")
              else
                  logger.LogInformation $"Odd number: {v}"
-                 !> BadRequest()))
+                 !! BadRequest()))
 
         otherRoute
 
@@ -77,12 +77,12 @@ let routes =
                     let! res = db.Users.Where(fun x -> x.Id = UserId userId).TryFirstAsync()
 
                     match res with
-                    | Some user -> return !> Ok(user)
-                    | None -> return !> NotFound()
+                    | Some user -> return !! Ok(user)
+                    | None -> return !! NotFound()
                 })
 
             mapGroup "profile" {
-                allow_anonymous
+                allowAnonymous
 
                 post
                     "/"
@@ -90,12 +90,12 @@ let routes =
                     (fun (userInfo: NewUser) (db: AppDbContext) ->
                         task {
                             match NewUser.validate userInfo with
-                            | Error err -> return !> ValidationProblem(err)
+                            | Error err -> return !! ValidationProblem(err)
                             | Ok() ->
                                 let! exists = db.Users.TryFirstAsync(fun x -> x.Email = userInfo.Email)
 
                                 match exists with
-                                | Some _ -> return !> Conflict()
+                                | Some _ -> return !! Conflict()
                                 | None ->
                                     let userId = Guid.NewGuid()
 
@@ -107,7 +107,7 @@ let routes =
                                     db.Users.add newUser
                                     do! db.saveChangesAsync ()
 
-                                    return !> Created($"/user/{userId}", newUser)
+                                    return !! Created($"/user/{userId}", newUser)
                         })
 
                 delete "/{userId}" produces<NoContent, NotFound> (fun (userId: Guid) (db: AppDbContext) ->
@@ -115,11 +115,11 @@ let routes =
                         let! exists = db.Users.TryFirstAsync(fun x -> x.Id = UserId userId)
 
                         match exists with
-                        | None -> return !> NotFound()
+                        | None -> return !! NotFound()
                         | Some user ->
                             db.Users.remove user
                             do! db.saveChangesAsync ()
-                            return !> NoContent()
+                            return !! NoContent()
                     })
 
             }

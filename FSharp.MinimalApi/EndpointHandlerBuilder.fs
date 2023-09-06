@@ -2,7 +2,6 @@
 
 open System
 open System.Threading.Tasks
-open Constants
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 
@@ -61,216 +60,216 @@ type RouterBaseBuilder<'state>() =
     // Basic Maps
     //****************************************************************************************************
     // MapGet
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _>, ?config) =
         this.get s route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.get s route f config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.get s route f config
     // MapPost
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _>, ?config) =
         this.post s route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.post s route f config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.post s route f config
 
     // MapPut
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _>, ?config) =
         this.put s route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.put s route f config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.put s route f config
 
     // MapDelete
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _>, ?config) =
         this.delete s route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _>, ?config) = this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.delete s route f config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Func<_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _>, ?config) =
         this.delete s route f config
 
@@ -283,21 +282,21 @@ type RouterBaseBuilder<'state>() =
     // MapGet
 
     // Get 1
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 't>, ?config) =
         this.get state route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, Task<'t>>, ?config) =
         this.get state route (Delegate.fromFuncWithMaybeUnit f) config
 
     // Get 2
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 'a2, 't>, ?config) =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 't when 't :> IResult>
         (
             state,
@@ -310,7 +309,7 @@ type RouterBaseBuilder<'state>() =
 
 
     // Get 3
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -322,7 +321,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -334,7 +333,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 4
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -346,7 +345,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -358,7 +357,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 5
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -370,7 +369,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -381,7 +380,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.get state route f config
     // Get 6
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -393,7 +392,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -404,7 +403,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.get state route f config
     // Get 7
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -416,7 +415,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -427,7 +426,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.get state route f config
     // Get 8
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -439,7 +438,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -450,7 +449,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.get state route f config
     // Get 9
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -462,7 +461,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -474,7 +473,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 10
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -486,7 +485,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -498,7 +497,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 11
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -510,7 +509,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -522,7 +521,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 12
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -534,7 +533,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -546,7 +545,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 13
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -558,7 +557,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -570,7 +569,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 14
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't when 't :> IResult>
         (
             state,
@@ -582,7 +581,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't when 't :> IResult>
         (
             state,
@@ -594,7 +593,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 15
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -607,7 +606,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -620,7 +619,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
     // Get 16
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -633,7 +632,7 @@ type RouterBaseBuilder<'state>() =
         this.get state route f config
 
 
-    [<CustomOperation(mapGetOp)>]
+    [<CustomOperation(HttpMethodName.Get)>]
     member this.MapGet<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -649,21 +648,21 @@ type RouterBaseBuilder<'state>() =
     // MapPost
 
     // Get 1
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 't>, ?config) =
         this.post state route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, Task<'t>>, ?config) =
         this.post state route (Delegate.fromFuncWithMaybeUnit f) config
 
     // Get 2
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 'a2, 't>, ?config) =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 't when 't :> IResult>
         (
             state,
@@ -676,7 +675,7 @@ type RouterBaseBuilder<'state>() =
 
 
     // Get 3
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -688,7 +687,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -700,7 +699,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 4
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -712,7 +711,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -724,7 +723,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 5
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -736,7 +735,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -747,7 +746,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.post state route f config
     // Get 6
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -759,7 +758,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -770,7 +769,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.post state route f config
     // Get 7
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -782,7 +781,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -793,7 +792,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.post state route f config
     // Get 8
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -805,7 +804,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -816,7 +815,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.post state route f config
     // Get 9
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -828,7 +827,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -840,7 +839,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 10
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -852,7 +851,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -864,7 +863,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 11
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -876,7 +875,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -888,7 +887,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 12
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -900,7 +899,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -912,7 +911,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 13
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -924,7 +923,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -936,7 +935,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 14
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't when 't :> IResult>
         (
             state,
@@ -948,7 +947,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't when 't :> IResult>
         (
             state,
@@ -960,7 +959,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 15
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -973,7 +972,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -986,7 +985,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
     // Get 16
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -999,7 +998,7 @@ type RouterBaseBuilder<'state>() =
         this.post state route f config
 
 
-    [<CustomOperation(mapPostOp)>]
+    [<CustomOperation(HttpMethodName.Post)>]
     member this.MapPost<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -1015,21 +1014,21 @@ type RouterBaseBuilder<'state>() =
     // MapPut
 
     // Get 1
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 't>, ?config) =
         this.put state route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, Task<'t>>, ?config) =
         this.put state route (Delegate.fromFuncWithMaybeUnit f) config
 
     // Get 2
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 'a2, 't>, ?config) =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 't when 't :> IResult>
         (
             state,
@@ -1042,7 +1041,7 @@ type RouterBaseBuilder<'state>() =
 
 
     // Get 3
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -1054,7 +1053,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -1066,7 +1065,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 4
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -1078,7 +1077,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -1090,7 +1089,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 5
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -1102,7 +1101,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -1113,7 +1112,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.put state route f config
     // Get 6
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -1125,7 +1124,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -1136,7 +1135,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.put state route f config
     // Get 7
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -1148,7 +1147,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -1159,7 +1158,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.put state route f config
     // Get 8
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -1171,7 +1170,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -1182,7 +1181,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.put state route f config
     // Get 9
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -1194,7 +1193,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -1206,7 +1205,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 10
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -1218,7 +1217,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -1230,7 +1229,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 11
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -1242,7 +1241,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -1254,7 +1253,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 12
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -1266,7 +1265,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -1278,7 +1277,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 13
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -1290,7 +1289,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -1302,7 +1301,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 14
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't when 't :> IResult>
         (
             state,
@@ -1314,7 +1313,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't when 't :> IResult>
         (
             state,
@@ -1326,7 +1325,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 15
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -1339,7 +1338,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -1352,7 +1351,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
     // Get 16
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -1365,7 +1364,7 @@ type RouterBaseBuilder<'state>() =
         this.put state route f config
 
 
-    [<CustomOperation(mapPutOp)>]
+    [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -1380,16 +1379,16 @@ type RouterBaseBuilder<'state>() =
     //----------------------------------------------------------------------------------------------------
     // MapDelete
     // Get 1
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, 't>, ?config) =
         this.delete state route (Delegate.fromFuncWithMaybeUnit f) config
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 't when 't :> IResult>(state, route, _: unit -> 't, f: Func<'a1, Task<'t>>, ?config) =
         this.delete state route (Delegate.fromFuncWithMaybeUnit f) config
 
     // Get 2
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 't when 't :> IResult>
         (
             state,
@@ -1401,7 +1400,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 't when 't :> IResult>
         (
             state,
@@ -1414,7 +1413,7 @@ type RouterBaseBuilder<'state>() =
 
 
     // Get 3
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -1426,7 +1425,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 't when 't :> IResult>
         (
             state,
@@ -1438,7 +1437,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 4
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -1450,7 +1449,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 't when 't :> IResult>
         (
             state,
@@ -1462,7 +1461,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 5
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -1474,7 +1473,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 't when 't :> IResult>
         (
             state,
@@ -1485,7 +1484,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.delete state route f config
     // Get 6
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -1497,7 +1496,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 't when 't :> IResult>
         (
             state,
@@ -1508,7 +1507,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.delete state route f config
     // Get 7
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -1520,7 +1519,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 't when 't :> IResult>
         (
             state,
@@ -1531,7 +1530,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.delete state route f config
     // Get 8
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -1543,7 +1542,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 't when 't :> IResult>
         (
             state,
@@ -1554,7 +1553,7 @@ type RouterBaseBuilder<'state>() =
         ) =
         this.delete state route f config
     // Get 9
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -1566,7 +1565,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 't when 't :> IResult>
         (
             state,
@@ -1578,7 +1577,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 10
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -1590,7 +1589,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 't when 't :> IResult>
         (
             state,
@@ -1602,7 +1601,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 11
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -1614,7 +1613,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 't when 't :> IResult>
         (
             state,
@@ -1626,7 +1625,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 12
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -1638,7 +1637,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 't when 't :> IResult>
         (
             state,
@@ -1650,7 +1649,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 13
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -1662,7 +1661,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 't when 't :> IResult>
         (
             state,
@@ -1674,7 +1673,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 14
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't
         when 't :> IResult>
         (
@@ -1687,7 +1686,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 't
         when 't :> IResult>
         (
@@ -1700,7 +1699,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 15
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -1713,7 +1712,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 't
         when 't :> IResult>
         (
@@ -1726,7 +1725,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
     // Get 16
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
@@ -1739,7 +1738,7 @@ type RouterBaseBuilder<'state>() =
         this.delete state route f config
 
 
-    [<CustomOperation(mapDeleteOp)>]
+    [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete<'a1, 'a2, 'a3, 'a4, 'a5, 'a6, 'a7, 'a8, 'a9, 'a10, 'a11, 'a12, 'a13, 'a14, 'a15, 'a16, 't
         when 't :> IResult>
         (
