@@ -28,7 +28,7 @@ let routes =
         get "/ping/{x}" (fun (x: int) -> $"pong {x}")
 
         get "/inc/{v:int}" (fun (v: int) (n: Nullable<int>) -> v + (n.GetValueOrDefault 1))
-        
+
         // not working =/
         get "/arg/{x}" (fun ([<FromRoute(Name = "x")>] v: int) -> $"echo {v}")
 
