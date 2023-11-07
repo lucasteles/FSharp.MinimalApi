@@ -3,7 +3,6 @@
 open System
 open System.Threading.Tasks
 open FSharp.Core
-open Microsoft.AspNetCore.Http
 
 module Delegate =
     let inline fromFuncWithMaybeUnit (func: Func<'a, 'b>) : Delegate =
@@ -21,10 +20,10 @@ module Task =
 
 [<AutoOpen>]
 module Utils =
-    let inline private castResult (x: ^a) : ^b when ^a :> IResult and ^b :> IResult and ^b :> INestedHttpResult =
+    let inline private implicit (x: ^a) : ^b =
         ((^a or ^b): (static member op_Implicit: ^a -> ^b) x)
 
-    let inline (!!) v = castResult v
+    let inline (!!) v = implicit v
 
 module internal Func =
     let tap f arg =

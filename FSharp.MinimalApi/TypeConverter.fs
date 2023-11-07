@@ -1,5 +1,6 @@
 module TypeConverter
 
+open System
 open FSharp.MinimalApi
 open System.ComponentModel
 open System.Reflection
@@ -74,9 +75,13 @@ let addUnionCase t =
         let converter = typedefof<SingleUnionTypeConverter<_>>.MakeGenericType(t)
         TypeDescriptor.AddAttributes(t, TypeConverterAttribute(converter)) |> ignore
 
-let registerUnionTypesOnAssembly (assembly: Assembly) =
+let registerUnionTypesInAssembly (assembly: Assembly) =
     assembly.GetTypes()
     |> Array.filter FSharpType.IsUnion
     |> Array.iter addUnionCase
 
-let registerUnionTypes<'t> = typeof<'t>.Assembly |> registerUnionTypesOnAssembly
+let registerUnionTypesInAssemblyContaining<'t> =
+    typeof<'t>.Assembly |> registerUnionTypesInAssembly
+
+[<Obsolete>]
+let registerUnionTypes<'t> = registerUnionTypesInAssemblyContaining<'t>
