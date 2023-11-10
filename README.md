@@ -21,7 +21,11 @@ $ dotnet add package FSharp.MinimalApi
 ## Defining Routes
 
 ```fsharp
+open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Http.HttpResults
+
 open FSharp.MinimalApi
+open FSharp.MinimalApi.Builder
 open type TypedResults
 
 let routes =

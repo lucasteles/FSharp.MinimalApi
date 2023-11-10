@@ -2,6 +2,11 @@
 
 open System
 
+type UnionValue =
+    | ANumber of int
+    | AString of string
+    | Nothing
+
 type UserId = UserId of Guid
 
 [<CLIMutable>]

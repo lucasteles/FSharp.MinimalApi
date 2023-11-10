@@ -1,10 +1,10 @@
-﻿namespace FSharp.MinimalApi
+﻿namespace FSharp.MinimalApi.Builder
 
 open System
 open System.Threading.Tasks
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
-
+open FSharp.MinimalApi
 open Microsoft.AspNetCore.Routing
 
 [<AbstractClass>]

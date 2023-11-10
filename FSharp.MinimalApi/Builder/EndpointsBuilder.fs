@@ -1,4 +1,4 @@
-﻿namespace FSharp.MinimalApi
+﻿namespace FSharp.MinimalApi.Builder
 
 open System
 open System.Diagnostics
@@ -7,6 +7,7 @@ open Microsoft.AspNetCore.Authorization
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Routing
+open FSharp.MinimalApi
 
 type EndpointsMap =
     internal
@@ -25,7 +26,7 @@ type EndpointsBuilder(?groupName: string) =
 
     override this.Append state f =
         { state with
-            MapFn = state.MapFn >> Func.tap f }
+            MapFn = state.MapFn >> tap f }
 
     member _.Zero() =
         { Order = 0
@@ -49,15 +50,15 @@ type EndpointsBuilder(?groupName: string) =
         | { GroupName = None }, { GroupName = Some _ }
         | { GroupName = Some _ }, { GroupName = None } as (m1, m2) ->
             { m1 with
-                MapFn = m1.MapFn >> Func.tap m2.Apply }
+                MapFn = m1.MapFn >> tap m2.Apply }
 
         | { GroupName = None }, { GroupName = None }
         | { GroupName = Some _ }, { GroupName = Some _ } as (m1, m2) ->
             if m1.Order = 0 then
                 { m1 with
-                    MapFn = m1.MapFn >> (Func.tap m2.Apply) }
+                    MapFn = m1.MapFn >> (tap m2.Apply) }
             else
-                { MapFn = (Func.tap m1.Apply) >> (Func.tap m2.Apply)
+                { MapFn = (tap m1.Apply) >> (tap m2.Apply)
                   Order = 1
                   GroupName = None }
 
@@ -79,7 +80,7 @@ type EndpointsBuilder(?groupName: string) =
     [<CustomOperation("set")>]
     member _.Set(state, f) =
         { state with
-            MapFn = state.MapFn << Func.tap f }
+            MapFn = state.MapFn << tap f }
 
     [<CustomOperation("allowAnonymous")>]
     member _.AllowAnonymous(state) =

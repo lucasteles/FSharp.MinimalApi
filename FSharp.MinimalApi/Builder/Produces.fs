@@ -1,4 +1,4 @@
-﻿namespace FSharp.MinimalApi
+﻿namespace FSharp.MinimalApi.Builder
 
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Http.HttpResults
@@ -23,7 +23,6 @@ type ProducesHook =
         (())
         =
         Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5>>
-
 
     static member produces<'t1, 't2, 't3, 't4, 't5, 't6
         when 't1 :> IResult

@@ -19,7 +19,6 @@ module private EntityConfig =
         )
         |> ignore
 
-
     let blog (builder: ModelBuilder) =
         let blog = builder.Entity<Blog>()
         blog.HasKey(fun u -> u.Id :> obj) |> ignore

@@ -12,12 +12,19 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open FSharp.MinimalApi
+open FSharp.MinimalApi.Swagger
+open FSharp.MinimalApi.Builder
 open type TypedResults
 
 let otherRoute =
     endpoints {
         group "other"
-        get "foo" (fun () -> "bar")
+
+        get "union" (fun () ->
+            match Random.Shared.Next(0, 3) with
+            | 0 -> UnionValue.ANumber 42
+            | 1 -> UnionValue.AString "Foo"
+            | _ -> UnionValue.Nothing)
     }
 
 let routes =
@@ -129,12 +136,14 @@ let routes =
 [<EntryPoint>]
 let main args =
     let builder = WebApplication.CreateBuilder(args)
-    let jsonOptions = JsonFSharpOptions.Default()
+    let jsonFsharp = JsonFSharpOptions.Default()
 
     builder.Services
-        .ConfigureHttpJsonOptions(fun c -> jsonOptions.AddToJsonSerializerOptions c.SerializerOptions)
+        .ConfigureHttpJsonOptions(fun c -> jsonFsharp.AddToJsonSerializerOptions c.SerializerOptions)
+        .AddSingleton(jsonFsharp)
         .AddEndpointsApiExplorer()
-        .AddSwaggerGen()
+        .AddSwaggerGen(fun o -> o.ConfigureFSharp())
+        // .AddSwaggerGen(fun o -> o.ConfigureFSharp())
         .AddTuples()
         .AddDbContext<AppDbContext>(
             (fun c -> c.UseInMemoryDatabase("basic_api") |> ignore),
