@@ -53,4 +53,8 @@
         <Compile Include="Builder\Builders.fs"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FSharp.MinimalApi.Interop\FSharp.MinimalApi.Interop.csproj" />
+    </ItemGroup>
+
 </Project>

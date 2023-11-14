@@ -6,6 +6,7 @@ open BasicApi
 open BasicApi.Db
 open BasicApi.Models
 open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Mvc
 open Microsoft.EntityFrameworkCore
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Http.HttpResults
@@ -29,6 +30,14 @@ let otherRoute =
             | _ -> UnionValue.Nothing)
     }
 
+type CustomParams =
+    { [<FromRoute>]
+      foo: int
+      [<FromQuery>]
+      bar: string
+      [<FromServices>]
+      logger: ILogger<MyDbContext> }
+
 let routes =
     endpoints {
         get "/hello" (fun () -> "world")
@@ -46,6 +55,12 @@ let routes =
         // manual set builder config
         set (fun b -> b.MapGet("/health", (fun () -> "healthy")))
 
+        // using custom Parameters (AsParameterAttribute)
+        get
+            "/params/{foo}"
+            (AsParameters.Of(fun (param: CustomParams) ->
+                param.logger.LogInformation "Hello Params"
+                $"route={param.foo}; query={param.bar}"))
 
         // using options from DI
         get "/settings" (fun (options: IOptions<MyCustomSettings>) -> options.Value)
