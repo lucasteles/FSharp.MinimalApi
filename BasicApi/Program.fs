@@ -1,4 +1,5 @@
 open System
+open System.ComponentModel
 open System.Linq
 open System.Text.Json.Serialization
 open BasicApi
@@ -14,6 +15,7 @@ open Microsoft.Extensions.Logging
 open FSharp.MinimalApi
 open FSharp.MinimalApi.Swagger
 open FSharp.MinimalApi.Builder
+open Microsoft.Extensions.Options
 open type TypedResults
 
 let otherRoute =
@@ -29,7 +31,6 @@ let otherRoute =
 
 let routes =
     endpoints {
-
         get "/hello" (fun () -> "world")
 
         get "/ping/{x}" (fun (x: int) -> $"pong {x}")
@@ -44,6 +45,10 @@ let routes =
 
         // manual set builder config
         set (fun b -> b.MapGet("/health", (fun () -> "healthy")))
+
+
+        // using options from DI
+        get "/settings" (fun (options: IOptions<MyCustomSettings>) -> options.Value)
 
         get "/double/{v}" produces<Ok<int>> (fun (v: int) -> Ok(v * 2))
 
@@ -73,13 +78,13 @@ let routes =
                         return! next ctx
                 })
 
-            get "/" produces<Ok<User[]>> (fun (db: AppDbContext) ->
+            get "/" produces<Ok<User[]>> (fun (db: MyDbContext) ->
                 task {
                     let! users = db.Users.ToArrayAsync()
                     return Ok(users)
                 })
 
-            get "/{userId}" produces<Ok<User>, NotFound> (fun (userId: Guid) (db: AppDbContext) ->
+            get "/{userId}" produces<Ok<User>, NotFound> (fun (userId: Guid) (db: MyDbContext) ->
                 task {
                     let! res = db.Users.Where(fun x -> x.Id = UserId userId).TryFirstAsync()
 
@@ -88,36 +93,28 @@ let routes =
                     | None -> return !! NotFound()
                 })
 
-            mapGroup "profile" {
+            routeGroup "profile" {
                 allowAnonymous
 
                 post
                     "/"
                     produces<Created<User>, Conflict, ValidationProblem>
-                    (fun (userInfo: NewUser) (db: AppDbContext) ->
+                    (fun (userInfo: NewUser) (db: MyDbContext) ->
                         task {
-                            match NewUser.validate userInfo with
+                            match NewUser.parseUser userInfo with
                             | Error err -> return !! ValidationProblem(err)
-                            | Ok() ->
-                                let! exists = db.Users.TryFirstAsync(fun x -> x.Email = userInfo.Email)
+                            | Ok newUser ->
+                                let! exists = db.Users.TryFirstAsync(fun x -> x.Email = newUser.Email)
 
                                 match exists with
                                 | Some _ -> return !! Conflict()
                                 | None ->
-                                    let userId = Guid.NewGuid()
-
-                                    let newUser =
-                                        { Id = UserId userId
-                                          Name = userInfo.Name
-                                          Email = userInfo.Email }
-
                                     db.Users.add newUser
                                     do! db.saveChangesAsync ()
-
-                                    return !! Created($"/user/{userId}", newUser)
+                                    return !! Created($"/user/{newUser.Id.Value}", newUser)
                         })
 
-                delete "/{userId}" produces<NoContent, NotFound> (fun (userId: Guid) (db: AppDbContext) ->
+                delete "/{userId}" produces<NoContent, NotFound> (fun (userId: Guid) (db: MyDbContext) ->
                     task {
                         let! exists = db.Users.TryFirstAsync(fun x -> x.Id = UserId userId)
 
@@ -133,6 +130,10 @@ let routes =
         }
     }
 
+// basic support for option, single union and fieldless unions (for appsettings)
+TypeDescriptor.addUnionTypesInAssemblyContaining<MyDbContext>
+TypeDescriptor.addDefaultOptionTypes ()
+
 [<EntryPoint>]
 let main args =
     let builder = WebApplication.CreateBuilder(args)
@@ -143,13 +144,18 @@ let main args =
         .AddSingleton(jsonFsharp)
         .AddEndpointsApiExplorer()
         .AddSwaggerGen(fun o -> o.ConfigureFSharp())
-        // .AddSwaggerGen(fun o -> o.ConfigureFSharp())
         .AddTuples()
-        .AddDbContext<AppDbContext>(
+        .AddDbContext<MyDbContext>(
             (fun c -> c.UseInMemoryDatabase("basic_api") |> ignore),
             ServiceLifetime.Singleton,
             ServiceLifetime.Singleton
         )
+    |> ignore
+
+    builder.Services
+        .AddOptions<MyCustomSettings>()
+        .BindConfiguration("MyCustomSettings")
+        .ValidateOnStart()
     |> ignore
 
     let app = builder.Build()
@@ -157,7 +163,7 @@ let main args =
 
     app.MapGroup("api").WithTags("Root") |> routes.Apply |> ignore
 
-    app.Services.GetRequiredService<AppDbContext>().Database.EnsureCreated()
+    app.Services.GetRequiredService<MyDbContext>().Database.EnsureCreated()
     |> ignore
 
     app.Run()
