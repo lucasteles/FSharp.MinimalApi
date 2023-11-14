@@ -61,15 +61,11 @@ type RouterBaseBuilder<'state>() =
     //****************************************************************************************************
     // MapGet
     [<CustomOperation(HttpMethodName.Get)>]
-    member this.MapGet(s, route, f: Delegate, ?config) = this.get s route f config
-
-    [<CustomOperation(HttpMethodName.Get)>]
-    member this.MapGet(s, route, f: 'p -> 'r, ?config) =
+    member inline this.MapGet(s, route, f: 'p -> 'r, ?config) =
         this.get s route (AsParameters.Of f) config
 
     [<CustomOperation(HttpMethodName.Get)>]
-    member this.MapGet(s, route, f: 'p -> Task<'r>, ?config) =
-        this.get s route (AsParameters.OfTask f) config
+    member this.MapGet(s, route, f: Delegate, ?config) = this.get s route f config
 
     // MapPost
     [<CustomOperation(HttpMethodName.Post)>]
@@ -79,10 +75,6 @@ type RouterBaseBuilder<'state>() =
     member this.MapPost(s, route, f: 'p -> 'r, ?config) =
         this.post s route (AsParameters.Of f) config
 
-    [<CustomOperation(HttpMethodName.Post)>]
-    member this.MapPost(s, route, f: 'p -> Task<'r>, ?config) =
-        this.post s route (AsParameters.OfTask f) config
-
     // MapPut
     [<CustomOperation(HttpMethodName.Put)>]
     member this.MapPut(s, route, f: Delegate, ?config) = this.put s route f config
@@ -91,10 +83,6 @@ type RouterBaseBuilder<'state>() =
     member this.MapPut(s, route, f: 'p -> 'r, ?config) =
         this.put s route (AsParameters.Of f) config
 
-    [<CustomOperation(HttpMethodName.Put)>]
-    member this.MapPut(s, route, f: 'p -> Task<'r>, ?config) =
-        this.put s route (AsParameters.OfTask f) config
-
     // MapDelete
     [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: Delegate, ?config) = this.delete s route f config
@@ -102,11 +90,6 @@ type RouterBaseBuilder<'state>() =
     [<CustomOperation(HttpMethodName.Delete)>]
     member this.MapDelete(s, route, f: 'p -> 'r, ?config) =
         this.delete s route (AsParameters.Of f) config
-
-    [<CustomOperation(HttpMethodName.Delete)>]
-    member this.MapDelete(s, route, f: 'p -> Task<'r>, ?config) =
-        this.delete s route (AsParameters.OfTask f) config
-
 
     //****************************************************************************************************
     // TypedResult Maps
