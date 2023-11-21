@@ -35,7 +35,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Update="FSharp.Core" Version="7.0.0"/>
+        <PackageReference Update="FSharp.Core" Version="7.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
         <PackageReference Include="FSharp.SystemTextJson" Version="1.2.42"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
@@ -45,9 +45,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="Utils.fs" />
-        <Compile Include="Filters.fs" />
-        <Compile Include="Extensions.fs" />
+        <Compile Include="Utils.fs"/>
+        <Compile Include="Filters.fs"/>
+        <Compile Include="Extensions.fs"/>
     </ItemGroup>
 
 </Project>

@@ -5,8 +5,14 @@ namespace FSharp.MinimalApi;
 using Microsoft.FSharp.Core;
 using Microsoft.AspNetCore.Http;
 
+/// <summary>
+/// Creates a delegate with AsParametersAttribute
+/// </summary>
 public static class AsParameters
 {
+    /// <summary>
+    /// Creates delegates with AsParametersAttribute
+    /// </summary>
     public static Delegate Of<TParam, TResult>(FSharpFunc<TParam, TResult> requestDelegate) =>
         typeof(TResult).IsGenericType &&
         typeof(TResult).GetGenericTypeDefinition() == typeof(Task<>)
@@ -19,6 +25,9 @@ public static class AsParameters
                     ? void ([AsParameters] TParam parameters) => requestDelegate.Invoke(parameters)
                     : ([AsParameters] TParam parameters) => requestDelegate.Invoke(parameters);
 
+    /// <summary>
+    /// Creates async delegates with AsParametersAttribute
+    /// </summary>
     public static Delegate OfTask<TParam, TResult>(
         FSharpFunc<TParam, Task<TResult>> requestDelegate) =>
         typeof(TParam) == typeof(Unit)

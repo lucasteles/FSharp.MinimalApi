@@ -20,9 +20,8 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <IncludeReferencedProjects>true</IncludeReferencedProjects>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
@@ -31,7 +30,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Update="FSharp.Core" Version="7.0.0"/>
+        <PackageReference Update="FSharp.Core" Version="7.0"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -51,6 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FSharp.MinimalApi.Interop\FSharp.MinimalApi.Interop.csproj" />
+        <ProjectReference Include="..\FSharp.MinimalApi.Interop\FSharp.MinimalApi.Interop.csproj" />
     </ItemGroup>
+
 </Project>

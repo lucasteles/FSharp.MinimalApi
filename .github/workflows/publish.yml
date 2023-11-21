@@ -47,6 +47,7 @@ jobs:
         run: |
           dotnet pack FSharp.MinimalApi/ --configuration Release --include-symbols -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Package
           dotnet pack FSharp.MinimalApi.Swagger/ --configuration Release --include-symbols -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Package
+          dotnet pack FSharp.MinimalApi.Interop/ --configuration Release --include-symbols -p:Version='${{ steps.gitversion.outputs.SemVer }}' --output ./Package
 
       - name: Upload lib NuGet package artifact to GitHub
         uses: actions/upload-artifact@v2
