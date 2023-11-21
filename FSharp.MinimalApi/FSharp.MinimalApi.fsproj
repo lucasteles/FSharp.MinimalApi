@@ -19,14 +19,10 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <IncludeReferencedProjects>true</IncludeReferencedProjects>
     </PropertyGroup>
-    <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
+    
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
@@ -43,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
         <Compile Include="Constants.fs"/>
         <Compile Include="Extensions\Utils.fs"/>
         <Compile Include="Extensions\DI.fs"/>
@@ -56,5 +53,4 @@
     <ItemGroup>
       <ProjectReference Include="..\FSharp.MinimalApi.Interop\FSharp.MinimalApi.Interop.csproj" />
     </ItemGroup>
-
 </Project>
