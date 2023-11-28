@@ -73,6 +73,12 @@ let routes =
                  req.logger.LogInformation $"Odd number: {req.v}"
                  !! BadRequest()))
 
+        get "/delay/{n}" produces<NoContent> (fun (req: {| n: int |}) ->
+            async {
+                do! min 10 req.n |> TimeSpan.FromSeconds |> Async.Sleep
+                return NoContent()
+            })
+
         otherRoute
 
         endpoints {

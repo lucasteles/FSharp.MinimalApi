@@ -35,7 +35,6 @@ type ProducesHook =
         =
         Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, 't6>>
 
-
     static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7
         when 't1 :> IResult
         and 't2 :> IResult
@@ -47,7 +46,6 @@ type ProducesHook =
         (())
         =
         Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7>>>
-
 
     static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7, 't8
         when 't1 :> IResult
@@ -90,7 +88,6 @@ type ProducesHook =
         (())
         =
         Unchecked.defaultof<Results<'t1, 't2, 't3, 't4, 't5, Results<'t6, 't7, 't8, 't9, 't10>>>
-
 
     static member produces<'t1, 't2, 't3, 't4, 't5, 't6, 't7, 't8, 't9, 't10, 't11
         when 't1 :> IResult
