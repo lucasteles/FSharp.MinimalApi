@@ -1,4 +1,4 @@
-﻿namespace FSharp.MinimalApi
+﻿namespace FSharp.MinimalApi.Builder
 
 open System
 open System.Diagnostics
@@ -7,6 +7,7 @@ open Microsoft.AspNetCore.Authorization
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Routing
+open FSharp.MinimalApi
 
 type EndpointsMap =
     internal
@@ -25,7 +26,7 @@ type EndpointsBuilder(?groupName: string) =
 
     override this.Append state f =
         { state with
-            MapFn = state.MapFn >> Func.tap f }
+            MapFn = state.MapFn >> tap f }
 
     member _.Zero() =
         { Order = 0
@@ -33,6 +34,7 @@ type EndpointsBuilder(?groupName: string) =
           GroupName = groupName }
 
     member _.Run(route: EndpointsMap) = route
+    member _.Run(()) = ()
 
     member this.Yield(()) = this.Zero()
 
@@ -49,15 +51,15 @@ type EndpointsBuilder(?groupName: string) =
         | { GroupName = None }, { GroupName = Some _ }
         | { GroupName = Some _ }, { GroupName = None } as (m1, m2) ->
             { m1 with
-                MapFn = m1.MapFn >> Func.tap m2.Apply }
+                MapFn = m1.MapFn >> tap m2.Apply }
 
         | { GroupName = None }, { GroupName = None }
         | { GroupName = Some _ }, { GroupName = Some _ } as (m1, m2) ->
             if m1.Order = 0 then
                 { m1 with
-                    MapFn = m1.MapFn >> (Func.tap m2.Apply) }
+                    MapFn = m1.MapFn >> (tap m2.Apply) }
             else
-                { MapFn = (Func.tap m1.Apply) >> (Func.tap m2.Apply)
+                { MapFn = (tap m1.Apply) >> (tap m2.Apply)
                   Order = 1
                   GroupName = None }
 
@@ -66,7 +68,7 @@ type EndpointsBuilder(?groupName: string) =
     [<CustomOperation("group")>]
     member _.Group(state, name) = { state with GroupName = Some name }
 
-    [<CustomOperation("use_routes")>]
+    [<CustomOperation("useRoutes")>]
     member _.useRoutes(state, endpoints) =
         { state with
             MapFn = state.MapFn >> endpoints.MapFn }
@@ -79,9 +81,9 @@ type EndpointsBuilder(?groupName: string) =
     [<CustomOperation("set")>]
     member _.Set(state, f) =
         { state with
-            MapFn = state.MapFn << Func.tap f }
+            MapFn = state.MapFn << tap f }
 
-    [<CustomOperation("allow_anonymous")>]
+    [<CustomOperation("allowAnonymous")>]
     member _.AllowAnonymous(state) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AllowAnonymous()) }
@@ -96,30 +98,35 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.WithDescription(desc)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization()) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: string[]) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, [<ParamArray>] policies: IAuthorizeData[]) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAthorization")>]
     member _.RequireAuth(state, policy: AuthorizationPolicy) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policy)) }
 
-    [<CustomOperation("add_filter")>]
-    member _.AddFilter<'f when 'f :> IEndpointFilter>(state) =
+    [<CustomOperation("filter")>]
+    member _.Filter<'args, 'f when 'f :> IEndpointFilter>(state, ctor: 'args -> 'f) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
+
+    [<CustomOperation("filter")>]
+    member _.Filter<'f when 'f :> IEndpointFilter>(state, filter: 'f) =
+        { state with
+            MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
     [<CustomOperation("filter")>]
     member _.Filter
@@ -147,7 +154,12 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
-    [<CustomOperation("require_authorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, builder: AuthorizationPolicyBuilder -> unit) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(builder)) }
+
+    [<CustomOperation("apply")>]
+    member this.Apply(state: EndpointsMap, app) =
+        let mapper = this.Run state
+        mapper.Apply app |> ignore

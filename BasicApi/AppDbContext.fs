@@ -12,13 +12,17 @@ module private EntityConfig =
         user.Property(fun u -> u.Id).HasConversion((fun (UserId id) -> id), UserId)
         |> ignore
 
+        user
+            .Property(fun u -> u.Email)
+            .HasConversion((fun (Email email) -> email), Email)
+        |> ignore
+
         user.HasData(
             { Id = Guid.NewGuid() |> UserId
               Name = "Ryu"
-              Email = "ryu@capcom.com" }
+              Email = Email "ryu@capcom.com" }
         )
         |> ignore
-
 
     let blog (builder: ModelBuilder) =
         let blog = builder.Entity<Blog>()
@@ -41,7 +45,7 @@ module private EntityConfig =
         post.HasOne<Blog>().WithMany().HasForeignKey(fun u -> u.BlogId :> obj) |> ignore
         post.HasKey(fun u -> u.Id :> obj) |> ignore
 
-type AppDbContext(options) =
+type MyDbContext(options) =
     inherit DbContext(options)
     member this.Users = this.Set<User>()
     member this.Posts = this.Set<BlogPost>()

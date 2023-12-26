@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <OutputType>Library</OutputType>
@@ -6,7 +6,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Authors>Lucas Teles - lucas.teles@outlook.com</Authors>
         <Company/>
-        <Description>Easily use AspNet Core MinimalApi with F#</Description>
+        <Description>Better Swagger documentation for F# types</Description>
         <RepositoryType>GitHub</RepositoryType>
         <PackageProjectUrl>https://github.com/lucasteles/FSharp.MinimalApi</PackageProjectUrl>
         <RepositoryUrl>https://github.com/lucasteles/FSharp.MinimalApi</RepositoryUrl>
@@ -14,14 +14,19 @@
 
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <PackageTags>AspNet,Asp,fsharp,Minimal api,MinimalApi</PackageTags>
+        <PackageTags>AspNet,Asp,fsharp,Minimal api,MinimalApi,Swagger,OpenApi,Json</PackageTags>
         <DocumentationFile>bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
@@ -31,6 +36,8 @@
 
     <ItemGroup>
         <PackageReference Update="FSharp.Core" Version="7.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="FSharp.SystemTextJson" Version="1.2.42"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -38,19 +45,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\README.md" Pack="true" PackagePath="\"/>
-        <Compile Include="Constants.fs"/>
-        <Compile Include="Extensions\Utils.fs"/>
-        <Compile Include="Extensions\DI.fs"/>
-        <Compile Include="Extensions\EndpointRouteBuilder.fs"/>
-        <Compile Include="Builder\Produces.fs"/>
-        <Compile Include="Builder\EndpointHandlerBuilder.fs"/>
-        <Compile Include="Builder\EndpointsBuilder.fs"/>
-        <Compile Include="Builder\Builders.fs"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\FSharp.MinimalApi.Interop\FSharp.MinimalApi.Interop.csproj" />
+        <Compile Include="Utils.fs"/>
+        <Compile Include="Filters.fs"/>
+        <Compile Include="Extensions.fs"/>
     </ItemGroup>
 
 </Project>
