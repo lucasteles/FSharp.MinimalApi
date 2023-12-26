@@ -8,6 +8,5 @@ no-bump-message: "^(none|skip):"
 
 branches:
     master:
-        tag: beta
         is-mainline: true
         source-branches: []

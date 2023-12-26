@@ -117,10 +117,15 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policy)) }
 
-    [<CustomOperation("addFilter")>]
-    member _.AddFilter<'f when 'f :> IEndpointFilter>(state) =
+    [<CustomOperation("filter")>]
+    member _.Filter<'args, 'f when 'f :> IEndpointFilter>(state, ctor: 'args -> 'f) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
+
+    [<CustomOperation("filter")>]
+    member _.Filter<'f when 'f :> IEndpointFilter>(state, filter: 'f) =
+        { state with
+            MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
     [<CustomOperation("filter")>]
     member _.Filter
