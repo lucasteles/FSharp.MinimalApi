@@ -21,6 +21,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+            global-json-file: global.json
+
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.10.2
         with:
@@ -34,11 +39,6 @@ jobs:
         run: |
             echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
             echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
-
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v2
-        with:
-            global-json-file: global.json
 
       - name: Test
         run: dotnet test
