@@ -17,28 +17,28 @@ jobs:
       PreReleaseTag: ${{ steps.gitversion.outputs.PreReleaseTag }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.15
+        uses: gittools/actions/gitversion/setup@v0.10.2
         with:
-          versionSpec: 5.x
+            versionSpec: 5.x
 
       - name: Determine Version
-        uses: gittools/actions/gitversion/execute@v0.9.15
+        uses: gittools/actions/gitversion/execute@v0.10.2
         id: gitversion
 
       - name: Display GitVersion outputs
         run: |
-          echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
-          echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
+            echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
+            echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
 
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v2
         with:
-          global-json-file: global.json
+            global-json-file: global.json
 
       - name: Test
         run: dotnet test

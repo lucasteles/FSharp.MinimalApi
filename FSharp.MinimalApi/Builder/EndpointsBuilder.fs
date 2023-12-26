@@ -34,6 +34,7 @@ type EndpointsBuilder(?groupName: string) =
           GroupName = groupName }
 
     member _.Run(route: EndpointsMap) = route
+    member _.Run(()) = ()
 
     member this.Yield(()) = this.Zero()
 
@@ -117,10 +118,15 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policy)) }
 
-    [<CustomOperation("addFilter")>]
-    member _.AddFilter<'f when 'f :> IEndpointFilter>(state) =
+    [<CustomOperation("filter")>]
+    member _.Filter<'args, 'f when 'f :> IEndpointFilter>(state, ctor: 'args -> 'f) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter<'f>()) }
+
+    [<CustomOperation("filter")>]
+    member _.Filter<'f when 'f :> IEndpointFilter>(state, filter: 'f) =
+        { state with
+            MapFn = state.MapFn >> (fun e -> e.AddEndpointFilter(filter)) }
 
     [<CustomOperation("filter")>]
     member _.Filter
@@ -152,3 +158,8 @@ type EndpointsBuilder(?groupName: string) =
     member _.RequireAuth(state, builder: AuthorizationPolicyBuilder -> unit) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(builder)) }
+
+    [<CustomOperation("apply")>]
+    member this.Apply(state: EndpointsMap, app) =
+        let mapper = this.Run state
+        mapper.Apply app |> ignore

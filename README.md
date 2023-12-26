@@ -80,7 +80,7 @@ let routes =
                 })
 
             // group mappping
-            routeGroup "profile" {
+            withGroup "profile" {
                 allowAnonymous
 
                 post

@@ -108,7 +108,7 @@ let routes =
                     | None -> return !! NotFound()
                 })
 
-            routeGroup "profile" {
+            withGroup "profile" {
                 allowAnonymous
 
                 post
