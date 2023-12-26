@@ -7,4 +7,4 @@ let inline private implicit (x: ^a) : ^b =
 let inline (!!) v = implicit v
 
 let endpoints = EndpointsBuilder()
-let withGroup groupName = EndpointsBuilder groupName
+let route groupName = EndpointsBuilder groupName
