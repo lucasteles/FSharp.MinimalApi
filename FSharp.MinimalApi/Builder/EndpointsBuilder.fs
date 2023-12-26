@@ -34,6 +34,7 @@ type EndpointsBuilder(?groupName: string) =
           GroupName = groupName }
 
     member _.Run(route: EndpointsMap) = route
+    member _.Run(()) = ()
 
     member this.Yield(()) = this.Zero()
 
@@ -157,3 +158,8 @@ type EndpointsBuilder(?groupName: string) =
     member _.RequireAuth(state, builder: AuthorizationPolicyBuilder -> unit) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(builder)) }
+
+    [<CustomOperation("apply")>]
+    member this.Apply(state: EndpointsMap, app) =
+        let mapper = this.Run state
+        mapper.Apply app |> ignore
