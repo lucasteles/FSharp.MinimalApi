@@ -5,8 +5,6 @@
 
 Easily define your routes in your [ASP.NET Core MinimalAPI](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis) with [`TypedResults`](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-7.0?view=aspnetcore-7.0#typed-results-for-minimal-apis) support
 
-> **⚠️** This library is in beta state
-
 ## Getting started
 
 [NuGet package](https://www.nuget.org/packages/FSharp.MinimalApi) available:
@@ -21,85 +19,101 @@ $ dotnet add package FSharp.MinimalApi
 ## Defining Routes
 
 ```fsharp
+open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Http.HttpResults
+
 open FSharp.MinimalApi
+open FSharp.MinimalApi.Builder
 open type TypedResults
+
+type CustomParams =
+    { [<FromRoute>]
+      foo: int
+      [<FromQuery>]
+      bar: string
+      [<FromServices>]
+      logger: ILogger<MyDbContext> }
 
 let routes =
     endpoints {
-
         get "/hello" (fun () -> "world")
 
-        get "/inc/{v}" (fun (v: int)  -> v + 1)
+        // request bindable parameters must be mapped to objects/records
+        get "/ping/{x}" (fun (req: {| x: int |}) -> $"pong {req.x}")
 
-        get "/secret" (fun () -> "I'm secret") (fun b -> b.ExcludeFromDescription())
+        get "/inc/{v:int}" (fun (req: {| v: int; n: Nullable<int> |}) -> req.v + (req.n.GetValueOrDefault 1))
 
-        get "/double/{v}" produces<Ok<int>> (fun (v: int) -> Ok(v * 2))
+        get "/params/{foo}" (fun (param: CustomParams) ->
+            param.logger.LogInformation "Hello Params"
+            $"route={param.foo}; query={param.bar}")
 
-        get "/even/{v}" produces<Ok<string>, BadRequest> (fun (v: int) (logger: ILogger<_>) ->
-            (if v % 2 = 0 then
-                // the `!>` is necessary for implicit conversions between result types
-                 !> Ok("even number!") 
+        // better static/openapi typing
+        get "/double/{v}" produces<Ok<int>> (fun (req: {| v: int |}) -> Ok(req.v * 2))
+
+        get "/even/{v}" produces<Ok<string>, BadRequest> (fun (req: {| v: int; logger: ILogger<_> |}) ->
+            (if req.v % 2 = 0 then
+                 // TypedResult relies havely on implict convertions
+                 // the (!!) operator help us to call the implicit cast
+                 !! Ok("even number!")
              else
-                 logger.LogInformation $"Odd number: {v}"
-                 !> BadRequest()))
-
-        // RouteBuilder access
-        set (fun b -> b.MapGet("/health", (fun () -> "healthy")))
-
-        mapGroup "user" {
+                 req.logger.LogInformation $"Odd number: {req.v}"
+                 !! BadRequest()))
+        
+        // nesting
+        endpoints {
+            group "user"
             tags "Users"
-            allow_anonymous
 
-            get "/" produces<Ok<User[]>> (fun (db: AppDbContext) ->
+            get "/" produces<Ok<User[]>> (fun (req: {| db: MyDbContext |}) ->
                 task {
-                    let! users = db.Users.ToArrayAsync()
+                    let! users = req.db.Users.ToArrayAsync()
                     return Ok(users)
                 })
 
-            get "/{userId}" produces<Ok<User>, NotFound> (fun (userId: Guid) (db: AppDbContext) ->
+            get "/{userId}" produces<Ok<User>, NotFound> (fun (req: {| userId: Guid; db: MyDbContext |}) ->
                 task {
-                    let! res = db.Users.Where(fun x -> x.Id = UserId userId).TryFirstAsync()
+                    let! res = req.db.Users.Where(fun x -> x.Id = UserId req.userId).TryFirstAsync()
 
                     match res with
-                    | Some user -> return !> Ok(user)
-                    | None -> return !> NotFound()
+                    | Some user -> return !! Ok(user)
+                    | None -> return !! NotFound()
                 })
 
-            post "/" produces<Created<User>, Conflict, ValidationProblem>
-                (fun (userInfo: NewUser) (db: AppDbContext) ->
+            // group mappping
+            routeGroup "profile" {
+                allowAnonymous
+
+                post
+                    "/"
+                    produces<Created<User>, Conflict, ValidationProblem>
+                    (fun (req: {| userInfo: NewUser; db: MyDbContext |}) ->
+                        task {
+                            match NewUser.parseUser req.userInfo with
+                            | Error err -> return !! ValidationProblem(err)
+                            | Ok newUser ->
+                                let! exists = req.db.Users.TryFirstAsync(fun x -> x.Email = newUser.Email)
+
+                                match exists with
+                                | Some _ -> return !! Conflict()
+                                | None ->
+                                    req.db.Users.add newUser
+                                    do! req.db.saveChangesAsync ()
+                                    return !! Created($"/user/{newUser.Id.Value}", newUser)
+                        })
+
+                delete "/{userId}" produces<NoContent, NotFound> (fun (req: {| userId: Guid; db: MyDbContext |}) ->
                     task {
-                        match NewUser.validate userInfo with
-                        | Error err -> return !> ValidationProblem(err)
-                        | Ok() ->
-                            let! exists = db.Users.TryFirstAsync(fun x -> x.Email = userInfo.Email)
+                        let! exists = req.db.Users.TryFirstAsync(fun x -> x.Id = UserId req.userId)
 
-                            match exists with
-                            | Some _ -> return !> Conflict()
-                            | None ->
-                                let userId = Guid.NewGuid()
-
-                                let newUser =
-                                    { Id = UserId userId
-                                        Name = userInfo.Name
-                                        Email = userInfo.Email }
-
-                                db.Users.add newUser
-                                do! db.saveChangesAsync ()
-
-                                return !> Created($"/user/{userId}", newUser)
+                        match exists with
+                        | None -> return !! NotFound()
+                        | Some user ->
+                            req.db.Users.remove user
+                            do! req.db.saveChangesAsync ()
+                            return !! NoContent()
                     })
 
-            delete "/{userId}" produces<NoContent, NotFound> (fun (userId: Guid) (db: AppDbContext) ->
-                task {
-                    let! exists = db.Users.TryFirstAsync(fun x -> x.Id = UserId userId)
-
-                    match exists with
-                    | None -> return !> NotFound()
-                    | Some user ->
-                        db.Users.remove user
-                        do! db.saveChangesAsync ()
-                        return !> NoContent()
-                })
+            }
         }
     }
 

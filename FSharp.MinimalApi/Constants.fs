@@ -1,13 +1,15 @@
-﻿module internal FSharp.MinimalApi.Constants
+﻿namespace FSharp.MinimalApi
 
-[<Literal>]
-let mapGetOp = "get"
+[<RequireQualifiedAccess>]
+module internal HttpMethodName =
+    [<Literal>]
+    let Get = "get"
 
-[<Literal>]
-let mapPostOp = "post"
+    [<Literal>]
+    let Post = "post"
 
-[<Literal>]
-let mapPutOp = "put"
+    [<Literal>]
+    let Put = "put"
 
-[<Literal>]
-let mapDeleteOp = "delete"
+    [<Literal>]
+    let Delete = "delete"

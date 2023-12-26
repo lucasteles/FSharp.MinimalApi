@@ -2,13 +2,24 @@
 
 open System
 
-type UserId = UserId of Guid
+type UnionValue =
+    | ANumber of int
+    | AString of string
+    | Nothing
+
+type UserId =
+    | UserId of Guid
+
+    member this.Value = let (UserId value) = this in value
+
+
+type Email = Email of string
 
 [<CLIMutable>]
 type User =
     { Id: UserId
       Name: string
-      Email: string }
+      Email: Email }
 
 type BlogId = BlogId of Guid
 
@@ -28,18 +39,36 @@ type BlogPost =
       BlogId: BlogId }
 
 [<CLIMutable>]
-type NewUser =
-    { Name: string
-      Email: string }
+type NewUser = { Name: string; Email: string }
 
-    static member validate(info: NewUser) =
+[<CLIMutable>]
+type MyCustomSettings =
+    { MagicNumber: int option
+      Enabled: bool
+      Email: Email }
+
+module Email =
+    let value (Email email) = email
+
+    let create (emailStr: string) =
+        let errors =
+            [| if String.IsNullOrWhiteSpace emailStr then
+                   "Empty email"
+
+               if not <| emailStr.Contains "@" then
+                   "Invalid email" |]
+
+        if errors |> Array.isEmpty then
+            emailStr.ToLower().Trim() |> Email |> Ok
+        else
+            errors |> Error
+
+module NewUser =
+    let parseUser (info: NewUser) =
         let problems =
-            [ nameof info.Email,
-              [| if String.IsNullOrWhiteSpace info.Email then
-                     "Empty email"
-
-                 if not <| info.Email.Contains "@" then
-                     "Invalid email" |]
+            [ match Email.create info.Email with
+              | Error errors -> nameof info.Email, errors
+              | Ok e -> ()
 
               nameof info.Name,
               [| if String.IsNullOrWhiteSpace info.Name then
@@ -50,5 +79,9 @@ type NewUser =
         problems
         |> List.filter (fun (_, errs) -> errs.Length > 0)
         |> function
-            | [] -> Ok()
+            | [] ->
+                { Id = Guid.NewGuid() |> UserId
+                  Name = info.Name
+                  Email = Email info.Email }
+                |> Ok
             | errors -> errors |> dict |> Error

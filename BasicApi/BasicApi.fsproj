@@ -12,11 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\FSharp.MinimalApi.Swagger\FSharp.MinimalApi.Swagger.fsproj" />
       <ProjectReference Include="..\FSharp.MinimalApi\FSharp.MinimalApi.fsproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
+      <PackageReference Include="FSharp.TypeConverter" Version="1.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
