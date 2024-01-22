@@ -18,7 +18,7 @@
 
     <ItemGroup>
       <PackageReference Include="FSharp.TypeConverter" Version="1.0.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.14" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.15" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
