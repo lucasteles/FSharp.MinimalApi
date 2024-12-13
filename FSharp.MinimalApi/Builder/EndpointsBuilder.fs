@@ -113,7 +113,7 @@ type EndpointsBuilder(?groupName: string) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policies)) }
 
-    [<CustomOperation("requireAthorization")>]
+    [<CustomOperation("requireAuthorization")>]
     member _.RequireAuth(state, policy: AuthorizationPolicy) =
         { state with
             MapFn = state.MapFn >> (fun e -> e.RequireAuthorization(policy)) }
